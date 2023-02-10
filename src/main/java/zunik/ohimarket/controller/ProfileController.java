@@ -15,15 +15,21 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/profile")
 public class ProfileController {
     private final MemberService memberService;
 
-    @GetMapping
+    @GetMapping("/myProfile")
     public String profile(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Member member = (Member) session.getAttribute("loginMember");
         log.info("member = {}", member);
+        model.addAttribute("member", member);
+        return "profile";
+    }
+
+//    @GetMapping("/myProfile")
+    public String profileTest(Model model) {
+        Member member = memberService.getByEmail("chazunik@gmail.com");
         model.addAttribute("member", member);
         return "profile";
     }

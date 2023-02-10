@@ -24,7 +24,7 @@
       <a class="navbar-brand text-white" href="#">봉천동</a>
       <div class="text-end">
         <a href="/"><i class="bi bi-search text-white" style="font-size:20px"></i></a>
-        <form action="/sign-out" method="post" id="signOutForm" style="display: inline;">
+        <form action="/signOut" method="post" id="signOutForm" style="display: inline;">
           <a href="javascript:;" onclick="document.getElementById('signOutForm').submit()">
             <i class="bi bi-door-open text-white" style="font-size:20px"></i>
           </a>
@@ -45,7 +45,7 @@
           </a>
         </div>
         <div class="col">
-          <a href="/profile" class="text-white text-decoration-none">
+          <a href="/myProfile" class="text-white text-decoration-none">
             <i class="bi" th:classappend="${page} == profile? bi-person-fill : bi-person"  style="font-size:25px"></i>
             <br /> 프로필
           </a>

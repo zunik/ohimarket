@@ -25,13 +25,13 @@ public class SignController {
     private final MemberService memberService;
     private final SignInService signInService;
 
-    @GetMapping("/sign-up")
+    @GetMapping("/signUp")
     public String signUpForm(Model model){
         model.addAttribute("form", new SignUpDto());
         return "signUp";
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/signUp")
     public String singUp(@Validated @ModelAttribute("form") SignUpDto form, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
@@ -45,16 +45,16 @@ public class SignController {
         member.setIntroduction(form.getIntroduction());
         memberService.save(member);
 
-        return "redirect:/sign-in";
+        return "redirect:/signIn";
     }
 
-    @GetMapping("/sign-in")
+    @GetMapping("/signIn")
     public String signInForm(Model model){
         model.addAttribute("form", new SignInDto());
         return "signIn";
     }
 
-    @PostMapping("/sign-in")
+    @PostMapping("/signIn")
     public String signIn(@Validated @ModelAttribute("form") SignInDto form,
                          BindingResult bindingResult, HttpServletRequest request,
                          Model model) {
@@ -80,12 +80,12 @@ public class SignController {
         return "redirect:/";
     }
 
-    @PostMapping("/sign-out")
+    @PostMapping("/signOut")
     public String signOut(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
-        return "redirect:/sign-in";
+        return "redirect:/signIn";
     }
 }
