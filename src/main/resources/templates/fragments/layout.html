@@ -18,7 +18,7 @@
   </style>
 </head>
 <body>
-<header th:fragment="header(page)">
+<header th:fragment="header">
   <nav class="navbar navbar-default fixed-top">
     <div class="container bg-dark border-bottom border-light">
       <a class="navbar-brand text-white" href="#">봉천동</a>
@@ -29,19 +29,19 @@
   </nav>
 </header>
 
-<footer th:fragment="footer">
+<footer th:fragment="footer(page)">
   <nav class="fixed-bottom">
     <div class="container bg-dark border-top border-light text-center ">
       <div class="row">
         <div class="col">
           <a href="/" class="text-white text-decoration-none">
-            <i class="bi bi-file-earmark-text" style="font-size:25px"></i>
+            <i class="bi" th:classappend="${page} == home? bi-file-earmark-text-fill : bi-file-earmark-text" style="font-size:25px"></i>
             <br /> 동네생활
           </a>
         </div>
         <div class="col">
-          <a href="/" class="text-white text-decoration-none">
-            <i class="bi bi-person text-white" style="font-size:25px"></i>
+          <a href="/profile" class="text-white text-decoration-none">
+            <i class="bi" th:classappend="${page} == profile? bi-person-fill : bi-person"  style="font-size:25px"></i>
             <br /> 프로필
           </a>
         </div>

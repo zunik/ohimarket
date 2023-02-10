@@ -42,6 +42,7 @@ public class SignController {
         member.setEmail(form.getEmail());
         member.setNickname(form.getNickname());
         member.setPassword(form.getPassword());
+        member.setIntroduction(form.getIntroduction());
         memberService.save(member);
 
         return "redirect:/sign-in";

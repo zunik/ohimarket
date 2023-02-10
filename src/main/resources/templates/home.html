@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/layout :: head(오이마켓)"></head>
+<head th:replace="fragments/layout :: head(동네생활)"></head>
 <body>
-    <header th:replace="fragments/layout :: header(bookclub)"></header>
+    <header th:replace="fragments/layout :: header"></header>
 
     <div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
         테스트
     </div>
 
-    <footer th:replace="fragments/layout :: footer"></footer>
+    <footer th:replace="fragments/layout :: footer(home)"></footer>
 </body>
 </html>

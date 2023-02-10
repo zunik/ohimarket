@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head(동네생활-프로필)"></head>
+<body>
+    <header th:replace="fragments/layout :: header"></header>
+
+    <div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
+        <div class="row mb-5">
+            <div class="col text-start">
+                <span class="fs-4 fw-bold" th:text="${member.nickname}">닉네임</span>
+                <span class="badge rounded-pill bg-info text-dark">37.5C</span>
+                <br />
+                <span class="text-secondary" th:text="${#temporals.format(member.createdAt, 'yyyy년 M월 d일 가입')}">2020년 8월 24일 가입</span>
+            </div>
+            <div class="col text-end">
+                <img src="https://blog.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg"
+                style="width: 100px;">
+            </div>
+        </div>
+        <div class="row text-center mb-4">
+            <div class="col">
+                <span class="text-secondary">0</span><br />
+                <span class="text-muted">누적 조회수</span>
+            </div>
+            <div class="col">
+                <span class="text-secondary">0</span><br />
+                <span class="text-muted">받은 공감수</span>
+            </div>
+            <div class="col">
+                <span class="text-secondary">0</span><br />
+                <span class="text-muted">칭찬 당근</span>
+            </div>
+        </div>
+        <div class="mb-2" th:text="${member.introduction}">
+            책 좋아해용 히히
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-secondary" type="button">프로필 수정</button>
+        </div>
+    </div>
+    <footer th:replace="fragments/layout :: footer(profile)"></footer>
+</body>
+</html>

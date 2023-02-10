@@ -13,12 +13,20 @@
       </div>
     </div>
     <div class="mb-3">
+      <label th:for="password" class="form-label">비밀번호</label>
+      <input type="password" class="form-control" th:field="*{password}" required>
+    </div>
+    <div class="mb-3">
       <label th:for="nickname" class="form-label">닉네임</label>
       <input type="text" class="form-control" th:field="*{nickname}" required>
     </div>
     <div class="mb-3">
-      <label th:for="password" class="form-label">비밀번호</label>
-      <input type="password" class="form-control" th:field="*{password}" required>
+      <label th:for="introduction" class="form-label">자기소개</label>
+      <textarea class="form-control" th:field="*{introduction}" maxlength="140"
+                placeholder="동네생활의 이웃들과 같이 이야기 하고 싶은 주제나 취미 활동을 적어보세요. (최대 140자)"></textarea>
+      <div th:errors="*{introduction}">
+        자기소개 오류
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">회원가입</button>
   </form>
