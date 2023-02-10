@@ -5,7 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.service.MemberService;
 
@@ -19,11 +20,10 @@ public class ProfileController {
     private final MemberService memberService;
 
     @GetMapping("/myProfile")
-    public String profile(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("loginMember");
-        log.info("member = {}", member);
-        model.addAttribute("member", member);
+    public String profile(Model model,
+                          @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
+        Member member = memberService.findById(loginMember.getId()).get();
+        model.addAttribute("member", loginMember);
         return "profile";
     }
 

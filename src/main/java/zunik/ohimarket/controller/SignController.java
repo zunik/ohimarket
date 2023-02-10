@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.dto.SignInDto;
 import zunik.ohimarket.dto.SignUpDto;
@@ -75,7 +76,8 @@ public class SignController {
         Member member = memberService.findByEmail(form.getEmail());
 
         HttpSession session = request.getSession();
-        session.setAttribute("loginMember", member);
+        // TODO 세션에 Member 객체 말고 필요한 정보만 넣기
+        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
 
         return "redirect:/";
     }

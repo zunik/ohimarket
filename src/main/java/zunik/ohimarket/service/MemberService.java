@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.repository.MemberRepository;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -16,8 +18,13 @@ public class MemberService {
         repository.save(member);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Member findByEmail(String email) {
         return repository.findByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Member> findById(Long id) {
+        return repository.findById(id);
     }
 }
