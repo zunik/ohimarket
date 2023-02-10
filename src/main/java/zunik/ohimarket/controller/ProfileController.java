@@ -29,7 +29,7 @@ public class ProfileController {
 
 //    @GetMapping("/myProfile")
     public String profileTest(Model model) {
-        Member member = memberService.getByEmail("chazunik@gmail.com");
+        Member member = memberService.findByEmail("chazunik@gmail.com");
         model.addAttribute("member", member);
         return "profile";
     }

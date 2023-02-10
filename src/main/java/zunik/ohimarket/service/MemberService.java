@@ -17,7 +17,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member getByEmail(String email) {
+    public Member findByEmail(String email) {
         return repository.findByEmail(email);
     }
 }

@@ -72,7 +72,7 @@ public class SignController {
             return "signIn";
         }
 
-        Member member = memberService.getByEmail(form.getEmail());
+        Member member = memberService.findByEmail(form.getEmail());
 
         HttpSession session = request.getSession();
         session.setAttribute("loginMember", member);
