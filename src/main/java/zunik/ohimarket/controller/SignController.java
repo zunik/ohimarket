@@ -79,4 +79,13 @@ public class SignController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/sign-out")
+    public String signOut(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/sign-in";
+    }
 }
