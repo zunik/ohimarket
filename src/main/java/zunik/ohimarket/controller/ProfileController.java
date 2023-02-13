@@ -36,7 +36,7 @@ public class ProfileController {
         return "profile";
     }
 
-    @GetMapping("/myProfile/edit")
+    @GetMapping("/editProfile")
     public String editMyProfileForm(Model model,
                                     @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
         Member member = memberService.findById(loginMember.getId()).get();
@@ -50,7 +50,7 @@ public class ProfileController {
         return "editProfile";
     }
 
-    @PostMapping("/myProfile/edit")
+    @PostMapping("/editProfile")
     public String editMyProfile(@Validated @ModelAttribute("form") MemberUpdateDto form,
                                 @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                 BindingResult bindingResult) {
