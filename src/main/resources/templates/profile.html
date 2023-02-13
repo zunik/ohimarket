@@ -8,7 +8,7 @@
         <div class="row mb-5">
             <div class="col text-start">
                 <span class="fs-4 fw-bold" th:text="${member.nickname}">닉네임</span>
-                <span class="badge rounded-pill bg-info text-dark">37.5C</span>
+                <span class="badge rounded-pill bg-info text-dark">36.5C</span>
                 <br />
                 <span class="text-secondary" th:text="${#temporals.format(member.createdAt, 'yyyy년 M월 d일 가입')}">2020년 8월 24일 가입</span>
             </div>
@@ -35,7 +35,7 @@
             책 좋아해용 히히
         </div>
         <div class="d-grid gap-2">
-            <button class="btn btn-secondary" type="button">프로필 수정</button>
+            <a href="/myProfile/edit" class="btn btn-secondary" type="button">프로필 수정</a>
         </div>
     </div>
     <footer th:replace="fragments/layout :: footer(profile)"></footer>
