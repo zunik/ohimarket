@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import zunik.ohimarket.domain.PostCategory;
 import zunik.ohimarket.repository.PostCategoryRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -18,5 +20,23 @@ public class PostCategoryService {
     @Transactional
     public List<PostCategory> findAll() {
         return postCategoryRepository.findByOrderBySortNumAsc();
+    }
+
+    /**
+     *  key 로 DisplayName 을 바로 찾을 수 있게
+     *  Dict 로 변환해서 넘겨줌
+     */
+    @Transactional
+    public Map<String, String> findAllTransMap() {
+        Map<String, String> categoriesMap = new HashMap<>();
+        List<PostCategory> postCategories = postCategoryRepository.findByOrderBySortNumAsc();
+        postCategories.forEach(postCategory -> {
+            categoriesMap.put(
+                    postCategory.getName(),
+                    postCategory.getDisplayName()
+            );
+        });
+
+        return categoriesMap;
     }
 }
