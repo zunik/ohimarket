@@ -10,6 +10,7 @@ import zunik.ohimarket.repository.PostCategoryRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -20,6 +21,11 @@ public class PostCategoryService {
     @Transactional
     public List<PostCategory> findAll() {
         return postCategoryRepository.findByOrderBySortNumAsc();
+    }
+
+    @Transactional
+    public Optional<PostCategory> findById(String name) {
+        return postCategoryRepository.findById(name);
     }
 
     /**

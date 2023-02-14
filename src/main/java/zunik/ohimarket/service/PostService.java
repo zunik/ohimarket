@@ -7,6 +7,7 @@ import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,12 @@ public class PostService {
         repository.save(post);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
+    public Optional<Post> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
     public List<Post> findAll() {
         return repository.findByOrderByCreatedAtDesc();
     }

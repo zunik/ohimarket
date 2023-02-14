@@ -5,7 +5,44 @@
 <header th:replace="fragments/layout :: header"></header>
 
 <div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
+    <div class="mb-4">
+        <span class="badge bg-secondary" th:text="${postCategory.displayName}">일상</span>
+    </div>
 
+    <div class="mb-3">
+        <img src="https://blog.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg"
+             class="float-start me-3" style="width: 39px;">
+        <span class="text-white font-weight-bold h5" th:text="${member.nickname}">노루</span> <br />
+        <span class="text-muted">3분 전</span>
+    </div>
+
+    <div class="mb-4">
+        <h3 th:text="${post.title}"></h3>
+    </div>
+
+    <div class="mb-3">
+        <div style="white-space:pre-wrap" th:text="${post.content}"></div>
+    </div>
+
+    <span class="text-muted">조회 0</span>
+
+    <div class="row border-top border-bottom border-secondary text-center mt-4">
+        <div class="col text-muted">
+            <i class="bi bi-chat" style="font-size:21px"></i>
+            댓글쓰기
+        </div>
+        <div class="col text-muted">
+            <i class="bi bi-heart" style="font-size:21px"></i>
+            관심
+        </div>
+    </div>
+
+    <div class="text-muted text-center mt-5">
+        <p class="h4">
+            아직 댓글이 없어요. <br />
+            가장 먼저 댓글을 남겨보세요.
+        </p>
+    </div>
 </div>
 
 <footer th:replace="fragments/layout :: footer(postDetail)"></footer>

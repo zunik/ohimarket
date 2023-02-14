@@ -7,15 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostCategory;
 import zunik.ohimarket.dto.PostCreateDto;
+import zunik.ohimarket.service.MemberService;
 import zunik.ohimarket.service.PostCategoryService;
 import zunik.ohimarket.service.PostService;
 
@@ -24,20 +22,13 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/post")
 public class PostController {
     private final PostCategoryService postCategoryService;
     private final PostService postService;
+    private final MemberService memberService;
 
-    @GetMapping
-    public String home(Model model) {
-        model.addAttribute("categoriesMap", postCategoryService.findAllTransMap());
-
-        List<Post> posts = postService.findAll();
-        model.addAttribute("posts", posts);
-        return "home";
-    }
-
-    @GetMapping("/post/add")
+    @GetMapping("/add")
     public String addForm(Model model) {
         List<PostCategory> postCategories = postCategoryService.findAll();
 
@@ -47,7 +38,7 @@ public class PostController {
         return "post/addForm";
     }
 
-    @PostMapping("/post/add")
+    @PostMapping("/add")
     public String addPost(@Validated @ModelAttribute("form") PostCreateDto form,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                             BindingResult bindingResult) {
@@ -64,5 +55,20 @@ public class PostController {
         postService.save(post);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/{postId}")
+    public String DetailPost(
+            @PathVariable long postId,
+            Model model
+    ) {
+        Post post = postService.findById(postId).orElseThrow();
+        PostCategory postCategory = postCategoryService.findById(post.getPostCategoryName()).get();
+        Member member = memberService.findById(post.getMemberId()).get();
+
+        model.addAttribute("postCategory", postCategory);
+        model.addAttribute("post", post);
+        model.addAttribute("member", member);
+        return "post/detailView";
     }
 }

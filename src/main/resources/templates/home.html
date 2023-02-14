@@ -9,7 +9,7 @@
         <div>
             <div class="border-top border-secondary pt-3 mb-3"
                  th:each="post : ${posts}">
-                <a href="#" class="text-decoration-none">
+                <a href="#" th:href="@{|/post/${post.id}|}" class="text-decoration-none">
                     <div class="d-flex w-100 mb-1">
                         <h5 class="text-white" th:text="${post.title}"></h5>
                     </div>
