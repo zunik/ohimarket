@@ -19,9 +19,7 @@ import zunik.ohimarket.dto.PostCreateDto;
 import zunik.ohimarket.service.PostCategoryService;
 import zunik.ohimarket.service.PostService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,23 +37,23 @@ public class PostController {
         return "home";
     }
 
-    @GetMapping("/createPost")
-    public String createPostForm(Model model) {
+    @GetMapping("/post/add")
+    public String addForm(Model model) {
         List<PostCategory> postCategories = postCategoryService.findAll();
 
         model.addAttribute("form", new PostCreateDto());
         model.addAttribute("postCategories", postCategories);
 
-        return "createPost";
+        return "post/addForm";
     }
 
-    @PostMapping("/createPost")
-    public String createPost(@Validated @ModelAttribute("form") PostCreateDto form,
+    @PostMapping("/post/add")
+    public String addPost(@Validated @ModelAttribute("form") PostCreateDto form,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
-            return "createPost";
+            return "post/addForm";
         }
 
         Post post = new Post();

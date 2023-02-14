@@ -26,18 +26,18 @@ public class ProfileController {
                           @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
         Member member = memberService.findById(loginMember.getId()).get();
         model.addAttribute("member", member);
-        return "profile";
+        return "profile/detailView";
     }
 
 //    @GetMapping("/myProfile")
     public String myProfileTest(Model model) {
         Member member = memberService.findByEmail("chazunik@gmail.com");
         model.addAttribute("member", member);
-        return "profile";
+        return "profile/detailView";
     }
 
-    @GetMapping("/editProfile")
-    public String editMyProfileForm(Model model,
+    @GetMapping("/myProfile/edit")
+    public String editForm(Model model,
                                     @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
         Member member = memberService.findById(loginMember.getId()).get();
 
@@ -47,10 +47,10 @@ public class ProfileController {
         form.setIntroduction(member.getIntroduction());
 
         model.addAttribute("form", form);
-        return "editProfile";
+        return "profile/editForm";
     }
 
-    @PostMapping("/editProfile")
+    @PostMapping("/myProfile/edit")
     public String editMyProfile(@Validated @ModelAttribute("form") MemberUpdateDto form,
                                 @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
                                 BindingResult bindingResult) {

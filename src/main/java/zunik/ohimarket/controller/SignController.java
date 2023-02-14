@@ -29,14 +29,14 @@ public class SignController {
     @GetMapping("/signUp")
     public String signUpForm(Model model){
         model.addAttribute("form", new SignUpDto());
-        return "signUp";
+        return "sign/signUp";
     }
 
     @PostMapping("/signUp")
     public String singUp(@Validated @ModelAttribute("form") SignUpDto form, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
-            return "signUp";
+            return "sign/signUp";
         }
 
         Member member = new Member();
@@ -52,7 +52,7 @@ public class SignController {
     @GetMapping("/signIn")
     public String signInForm(Model model){
         model.addAttribute("form", new SignInDto());
-        return "signIn";
+        return "sign/signIn";
     }
 
     @PostMapping("/signIn")
@@ -61,7 +61,7 @@ public class SignController {
                          Model model) {
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
-            return "signIn";
+            return "sign/signIn";
         }
 
         // 인증 체크
@@ -70,7 +70,7 @@ public class SignController {
         if (!authCheck) {
             // TODO 로그인 실패시 메시지 띄우기
             model.addAttribute("loginFail", "아이디 또는 패스워드를 확인해주세요");
-            return "signIn";
+            return "sign/signIn";
         }
 
         Member member = memberService.findByEmail(form.getEmail());
