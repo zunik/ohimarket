@@ -6,7 +6,7 @@
 
     <div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
 
-        <div>
+        <div class="pb-5 mb-3">
             <div class="border-top border-secondary pt-3 mb-3"
                  th:each="post : ${posts}">
                 <a href="#" th:href="@{|/post/${post.id}|}" class="text-decoration-none">
@@ -18,7 +18,7 @@
                         ·
                         <span class="text-muted">봉천동</span>
                         ·
-                        <span class="text-muted">11분전</span>
+                        <span class="text-muted" th:text="${@thymeleafUtils.datetimeToStr(post.createdAt)}">11분전</span>
                     </div>
                     <div class="text-white">
                         <span><i class="bi bi-chat text-muted"></i> 3</span>
