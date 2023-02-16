@@ -15,6 +15,7 @@ import zunik.ohimarket.domain.PostCategory;
 import zunik.ohimarket.dto.PostCreateDto;
 import zunik.ohimarket.service.MemberService;
 import zunik.ohimarket.service.PostCategoryService;
+import zunik.ohimarket.service.PostLikeService;
 import zunik.ohimarket.service.PostService;
 
 import javax.servlet.http.Cookie;
@@ -30,6 +31,7 @@ public class PostController {
     private final PostCategoryService postCategoryService;
     private final PostService postService;
     private final MemberService memberService;
+    private final PostLikeService postLikeService;
 
     @GetMapping("/add")
     public String addForm(Model model) {
@@ -65,14 +67,20 @@ public class PostController {
             @PathVariable long postId,
             Model model,
             HttpServletRequest request,
-            HttpServletResponse response
+            HttpServletResponse response,
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember
     ) {
         Post post = postService.findById(postId).orElseThrow();
         PostCategory postCategory = postCategoryService.findById(post.getPostCategoryName()).get();
         Member member = memberService.findById(post.getMemberId()).get();
 
+        boolean isLike = postLikeService.PostLikeCheck(
+                post.getId(), loginMember.getId()
+        );
+
         visit(post.getId(), request, response);
 
+        model.addAttribute("isLike", isLike);
         model.addAttribute("postCategory", postCategory);
         model.addAttribute("post", post);
         model.addAttribute("member", member);
@@ -91,19 +99,17 @@ public class PostController {
         Cookie postViewsCookie = null;
 
         for (Cookie cookie: cookies) {
-            log.info("쿠키 : {} = {}", cookie.getName(), cookie.getValue());
             if (cookie.getName().equals(cookieName)) {
                 postViewsCookie = cookie;
             }
         }
 
         if (postViewsCookie != null && postViewsCookie.getValue().contains(postIdCookieValue)) {
-            log.info("이미 해당 페이지는 방문했습니다.");
             return;
         }
 
         // DB 조회수 올리기
-        postService.viewsUpdate(id);
+        postService.increaseViews(id);
 
         if (postViewsCookie == null) {
             postViewsCookie = new Cookie(cookieName, postIdCookieValue);

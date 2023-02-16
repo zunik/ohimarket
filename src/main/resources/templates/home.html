@@ -22,7 +22,10 @@
                     </div>
                     <div class="text-white">
                         <span><i class="bi bi-chat text-muted"></i> 3</span>
-                        <span><i class="bi bi-heart text-muted"></i> 2</span>
+                        <span th:if="${post.like_count} != 0">
+                            <i class="bi bi-heart text-muted"></i>
+                            <span th:text="${post.like_count}">1</span>
+                        </span>
                     </div>
                 </a>
             </div>

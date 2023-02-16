@@ -30,7 +30,8 @@ public class PostService {
     }
 
     @Transactional
-    public void viewsUpdate(Long id) {
+    public void increaseViews(Long id) {
         repository.increaseViews(id);
     }
+
 }

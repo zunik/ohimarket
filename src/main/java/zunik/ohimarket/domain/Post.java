@@ -25,6 +25,13 @@ public class Post {
 
     @ColumnDefault("0")
     private Long views;
+
+    @ColumnDefault("0")
+    private Long like_count;
+
+    @ColumnDefault("0")
+    private Long comment_count;
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
