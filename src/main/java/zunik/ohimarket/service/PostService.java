@@ -28,4 +28,9 @@ public class PostService {
     public List<Post> findAll() {
         return repository.findByOrderByCreatedAtDesc();
     }
+
+    @Transactional
+    public void viewsUpdate(Long id) {
+        repository.increaseViews(id);
+    }
 }

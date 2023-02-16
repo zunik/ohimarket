@@ -24,7 +24,7 @@
         <div style="white-space:pre-wrap" th:text="${post.content}"></div>
     </div>
 
-    <span class="text-muted">조회 0</span>
+    <span class="text-muted">조회 <span th:text="${post.views}">0</span></span>
 
     <div class="row border-top border-bottom border-secondary text-center mt-4">
         <div class="col text-muted">
