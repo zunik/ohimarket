@@ -16,14 +16,14 @@ public interface PostRepository  extends JpaRepository<Post, Long> {
     void increaseViews(Long id);
 
     @Modifying
-    @Query("UPDATE Post p SET p.like_count = p.like_count + 1 WHERE p.id = :id")
+    @Query("UPDATE Post p SET p.likeCount = p.likeCount + 1 WHERE p.id = :id")
     void increaseLikeCount(Long id);
 
     @Modifying
-    @Query("UPDATE Post p SET p.like_count = p.like_count - 1 WHERE p.id = :id")
+    @Query("UPDATE Post p SET p.likeCount = p.likeCount - 1 WHERE p.id = :id")
     void decreaseLikeCount(Long id);
 
-    @Query("SELECT SUM(p.like_count) FROM Post p WHERE p.memberId = :memberId")
+    @Query("SELECT SUM(p.likeCount) FROM Post p WHERE p.memberId = :memberId")
     Optional<Integer> sumLikeCountFindByMemberId(Long memberId);
 
     @Query("SELECT SUM(p.views) FROM Post p WHERE p.memberId = :memberId")

@@ -3,6 +3,7 @@ package zunik.ohimarket.domain;
 
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
+@DynamicInsert
 @Data
 public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +29,10 @@ public class Post {
     private Long views;
 
     @ColumnDefault("0")
-    private Long like_count;
+    private Long likeCount;
 
     @ColumnDefault("0")
-    private Long comment_count;
+    private Long commentCount;
 
     @CreatedDate
     @Column(updatable = false)
