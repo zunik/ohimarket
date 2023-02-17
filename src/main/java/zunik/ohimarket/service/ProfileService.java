@@ -16,10 +16,12 @@ public class ProfileService {
     private final PostRepository postRepository;
 
     @Transactional(readOnly = true)
-    public ProfileResponseDto getProfile(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
-        Integer totalLikeCount = postRepository.sumLikeCountFindByMemberId(memberId).orElse(0);
-        Integer totalViews = postRepository.sumViewsFindByMemberId(memberId).orElse(0);
+    public ProfileResponseDto getProfile(String memberToken) {
+        Member member = memberRepository.findByToken(memberToken).orElseThrow(
+                () -> new IllegalArgumentException("해당 토큰의 계정을 찾지 못했습니다.")
+        );
+        Integer totalLikeCount = postRepository.sumLikeCountFindByMemberId(member.getId()).orElse(0);
+        Integer totalViews = postRepository.sumViewsFindByMemberId(member.getId()).orElse(0);
 
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
         profileResponseDto.setMember(member);

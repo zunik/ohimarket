@@ -10,10 +10,12 @@
     </div>
 
     <div class="mb-3">
-        <img src="https://blog.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg"
-             class="float-start me-3" style="width: 39px;">
-        <span class="text-white font-weight-bold h5" th:text="${member.nickname}">노루</span> <br />
-        <span class="text-muted" th:text="${@thymeleafUtils.datetimeToStr(post.createdAt)}">3분 전</span>
+        <a href="/profile" th:href="@{|/profile/${member.token}|}" class="text-decoration-none" style="display: block;">
+            <img src="https://blog.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg"
+                 class="float-start me-3" style="width: 39px;">
+            <span class="text-white font-weight-bold h5" th:text="${member.nickname}">닉네임</span> <br />
+            <span class="text-muted" th:text="${@thymeleafUtils.datetimeToStr(post.createdAt)}">3분 전</span>
+        </a>
     </div>
 
     <div class="mb-4">

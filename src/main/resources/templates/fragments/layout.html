@@ -52,13 +52,13 @@
             <i class="bi bi-plus-lg text-white" style="font-size:27px"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">같이해요</a></li>
-            <li><hr class="dropdown-divider"></li>
+<!--            <li><a class="dropdown-item" href="#">같이해요</a></li>-->
+<!--            <li><hr class="dropdown-divider"></li>-->
             <li><a class="dropdown-item" href="/post/add">동네생활</a></li>
           </ul>
         </div>
       </th:block>
-
+      
       <div class="row bg-dark border-top border-light text-center">
         <div class="col">
           <a href="/" class="text-white text-decoration-none">
@@ -67,8 +67,8 @@
           </a>
         </div>
         <div class="col">
-          <a href="/myProfile" class="text-white text-decoration-none">
-            <i class="bi" th:classappend="${page} == profile? bi-person-fill : bi-person"  style="font-size:25px"></i>
+          <a href="/profile" th:href="@{|/profile/${session.loginMember.token}|}" class="text-white text-decoration-none">
+            <i class="bi" th:classappend="${page} == myProfile? bi-person-fill : bi-person"  style="font-size:25px"></i>
             <br /> 프로필
           </a>
         </div>

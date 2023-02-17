@@ -6,10 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.dto.MemberUpdateDto;
@@ -24,10 +22,11 @@ public class ProfileController {
     private final MemberService memberService;
     private final ProfileService profileService;
 
-    @GetMapping("/myProfile")
-    public String myProfile(Model model,
-                          @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
-        ProfileResponseDto profileResponseDto = profileService.getProfile(loginMember.getId());
+    @GetMapping("/profile/{memberToken}")
+    public String myProfile(
+            @PathVariable String memberToken,
+            Model model) {
+        ProfileResponseDto profileResponseDto = profileService.getProfile(memberToken);
 
         model.addAttribute("profile", profileResponseDto);
         return "profile/detailView";
@@ -55,9 +54,12 @@ public class ProfileController {
     }
 
     @PostMapping("/myProfile/edit")
-    public String editMyProfile(@Validated @ModelAttribute("form") MemberUpdateDto form,
-                                @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
-                                BindingResult bindingResult) {
+    public String editMyProfile(
+            @Validated @ModelAttribute("form") MemberUpdateDto form,
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
             return "editProfile";
@@ -67,7 +69,8 @@ public class ProfileController {
                 loginMember.getId(),
                 form);
 
-        return "redirect:/myProfile";
+        redirectAttributes.addAttribute("memberToken", loginMember.getToken());
+        return "redirect:/profile/{memberToken}";
     }
 
 }

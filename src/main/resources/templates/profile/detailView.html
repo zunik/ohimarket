@@ -36,10 +36,12 @@
         <div class="mb-2" th:text="${profile.member.introduction}">
             책 좋아해용 히히
         </div>
-        <div class="d-grid gap-2">
+        <!-- 자신의 프로필일 경우만 수정 버튼을 보여준다. -->
+        <div class="d-grid gap-2" th:if="${profile.member.token} == ${session.loginMember.token}">
             <a href="/myProfile/edit" class="btn btn-secondary" type="button">프로필 수정</a>
         </div>
     </div>
-    <footer th:replace="fragments/layout :: footer(profile)"></footer>
+    <!-- 자신의 프로필인지의 여부로 footer로 보내는 값 달라짐 -->
+    <footer th:replace="${profile.member.token} == ${session.loginMember.token}? ~{fragments/layout :: footer(myProfile)} : ~{fragments/layout :: footer(profile)}"></footer>
 </body>
 </html>
