@@ -28,8 +28,8 @@
 
     <div class="mb-3">
         <a href="/profile" th:href="@{|/profile/${member.token}|}" class="text-decoration-none" style="display: block;">
-            <img src="https://blog.kakaocdn.net/dn/c3vWTf/btqUuNfnDsf/VQMbJlQW4ywjeI8cUE91OK/img.jpg"
-                 class="float-start me-3" style="width: 39px;">
+            <img th:src="@{https://api.dicebear.com/5.x/personas/svg(radius=50, size=43, backgroundColor='b6e3f4,c0aede,d1d4f9', seed=${member.token})}"
+                 src="https://api.dicebear.com/5.x/personas/svg" alt="avatar" class="float-start me-3"/>
             <span class="text-white font-weight-bold h5" th:text="${member.nickname}">닉네임</span> <br />
             <span class="text-muted" th:text="${@thymeleafUtils.datetimeToStr(post.createdAt)}">3분 전</span>
         </a>
