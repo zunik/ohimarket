@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/layout :: head(프로필수정)"></head>
 <body>
-    <header th:replace="fragments/layout :: header"></header>
+    <header th:replace="fragments/layout :: header(profile)"></header>
 
     <div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
         <form method="post" th:object="${form}">
