@@ -63,7 +63,7 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public String detailPost(
+    public String postDetail(
             @PathVariable long postId,
             Model model,
             HttpServletRequest request,

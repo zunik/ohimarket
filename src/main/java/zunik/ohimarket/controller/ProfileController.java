@@ -13,19 +13,23 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.dto.MemberUpdateDto;
+import zunik.ohimarket.dto.ProfileResponseDto;
 import zunik.ohimarket.service.MemberService;
+import zunik.ohimarket.service.ProfileService;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ProfileController {
     private final MemberService memberService;
+    private final ProfileService profileService;
 
     @GetMapping("/myProfile")
     public String myProfile(Model model,
                           @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
-        Member member = memberService.findById(loginMember.getId()).get();
-        model.addAttribute("member", member);
+        ProfileResponseDto profileResponseDto = profileService.getProfile(loginMember.getId());
+
+        model.addAttribute("profile", profileResponseDto);
         return "profile/detailView";
     }
 
