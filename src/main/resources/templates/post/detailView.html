@@ -5,8 +5,25 @@
 <header th:replace="fragments/layout :: header(post)"></header>
 
 <div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
-    <div class="mb-4">
-        <span class="badge bg-secondary" th:text="${postCategory.displayName}">일상</span>
+    <div class="mb-4 d-flex justify-content-between">
+        <div>
+            <span class="badge bg-secondary" th:text="${postCategory.displayName}">일상</span>
+        </div>
+        <div class="dropdown" th:if="${session.loginMember.id} == ${member.id}">
+            <span class="btn text-white" data-bs-toggle="dropdown" aria-expanded="false" style="padding:0px;">
+                <i class="bi bi-three-dots-vertical" style="font-size:20px"></i>
+            </span>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">수정</a></li>
+                <li>
+                    <form action="/post/delete" method="post" id="deletePost" style="display: inline;">
+                        <input type="hidden" name="postId" th:value="${post.id}">
+                        <a class="dropdown-item" href="javascript:void(0);"
+                           onclick="if (confirm('해당 글을 삭제하시겠습니까?')) {document.getElementById('deletePost').submit();}">삭제</a>
+                    </form>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="mb-3">

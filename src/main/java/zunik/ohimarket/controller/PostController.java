@@ -87,6 +87,15 @@ public class PostController {
         return "post/detailView";
     }
 
+    @PostMapping("/delete")
+    public String deletePost(
+            @RequestParam(value = "postId") Long postId,
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember
+            ) {
+        postService.delete(postId, loginMember.getId());
+        return "redirect:/";
+    }
+
     /**
      * 조회수 처리
      * 조회수 중복 처리 방지
