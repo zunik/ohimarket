@@ -62,7 +62,7 @@ public class ProfileController {
     ) {
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
-            return "editProfile";
+            return "profile/editForm";
         }
 
         memberService.update(

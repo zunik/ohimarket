@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostCategory;
+import zunik.ohimarket.dto.MemberUpdateDto;
 import zunik.ohimarket.dto.PostCreateDto;
 import zunik.ohimarket.service.MemberService;
 import zunik.ohimarket.service.PostCategoryService;
@@ -87,11 +89,59 @@ public class PostController {
         return "post/detailView";
     }
 
+    @GetMapping("/{postId}/edit")
+    public String editForm(
+            @PathVariable long postId,
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+            Model model
+    ) {
+        Post post = postService.findById(postId).orElseThrow();
+        List<PostCategory> postCategories = postCategoryService.findAll();
+
+        if (post.getMemberId() != loginMember.getId()) {
+            // TODO 해당 게시글에 수정권한이 없을경우 튕겨냄, 추후에는 권한 없음 페이지로 보내기
+            return "redirect:/";
+        }
+
+        PostCreateDto form = new PostCreateDto();
+
+        form.setTitle(post.getTitle());
+        form.setContent(post.getContent());
+        form.setPostCategoryName(post.getPostCategoryName());
+
+        model.addAttribute("form", form);
+        model.addAttribute("postCategories", postCategories);
+
+        return "post/editForm";
+    }
+
+    @PostMapping("/{postId}/edit")
+    public String editPost(
+            @PathVariable long postId,
+            @Validated @ModelAttribute("form") PostCreateDto form,
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            return "post/editForm";
+        }
+
+        postService.update(
+                postId, loginMember.getId(),
+                form
+        );
+
+        redirectAttributes.addAttribute("postId", postId);
+        return "redirect:/post/{postId}";
+    }
+
     @PostMapping("/delete")
     public String deletePost(
             @RequestParam(value = "postId") Long postId,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember
-            ) {
+    ) {
         postService.delete(postId, loginMember.getId());
         return "redirect:/";
     }
