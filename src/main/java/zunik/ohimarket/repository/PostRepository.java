@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import zunik.ohimarket.domain.Post;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository  extends JpaRepository<Post, Long> {
     List<Post> findByOrderByCreatedAtDesc();
@@ -23,9 +24,9 @@ public interface PostRepository  extends JpaRepository<Post, Long> {
     void decreaseLikeCount(Long id);
 
     @Query("SELECT SUM(p.like_count) FROM Post p WHERE p.memberId = :memberId")
-    int sumLikeCountFindByMemberId(Long memberId);
+    Optional<Integer> sumLikeCountFindByMemberId(Long memberId);
 
     @Query("SELECT SUM(p.views) FROM Post p WHERE p.memberId = :memberId")
-    int sumViewsFindByMemberId(Long memberId);
+    Optional<Integer> sumViewsFindByMemberId(Long memberId);
 
 }

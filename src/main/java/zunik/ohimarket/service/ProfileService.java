@@ -18,8 +18,8 @@ public class ProfileService {
     @Transactional(readOnly = true)
     public ProfileResponseDto getProfile(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow();
-        int totalLikeCount = postRepository.sumLikeCountFindByMemberId(memberId);
-        int totalViews = postRepository.sumViewsFindByMemberId(memberId);
+        Integer totalLikeCount = postRepository.sumLikeCountFindByMemberId(memberId).orElse(0);
+        Integer totalViews = postRepository.sumViewsFindByMemberId(memberId).orElse(0);
 
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
         profileResponseDto.setMember(member);
