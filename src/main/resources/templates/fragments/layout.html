@@ -22,12 +22,21 @@
       bottom: 30px;
       left: 590px;
      }
+
+     /* 댓글 입력 박스 */
+     #comment-add-input {
+      border:none;
+     }
+
+     #comment-add-input::placeholder {
+      color: #D3D3D3;
+    }
   </style>
 </head>
 <body>
 <header th:fragment="header(page)">
   <nav class="navbar navbar-default fixed-top">
-    <div class="container bg-dark border-bottom border-light">
+    <div class="container bg-dark border-bottom border-secondary">
       <a class="navbar-brand text-white" href="/">
         <span th:if="${page} == home">봉천동</span>
         <i class="bi bi-house-door" th:if="${page} != home" style="font-size:22px"></i>
@@ -48,21 +57,36 @@
   <nav class="fixed-bottom">
     <div class="container">
 
-      <th:block th:if="${page == 'home'}">
-        <div class="btn-group dropup" id="fixed-div">
-          <button type="button" class="btn btn-warning dropdown-toggle"
-                  data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#ED7014; border: none;">
-            <i class="bi bi-plus-lg text-white" style="font-size:27px"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-<!--            <li><a class="dropdown-item" href="#">같이해요</a></li>-->
-<!--            <li><hr class="dropdown-divider"></li>-->
-            <li><a class="dropdown-item" href="/post/add">동네생활</a></li>
-          </ul>
-        </div>
-      </th:block>
+      <!-- 메인화면일 경우에 노출 start -->
+      <div th:if="${page == 'home'}" class="btn-group dropup" id="fixed-div">
+        <button type="button" class="btn btn-warning dropdown-toggle"
+                data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#ED7014; border: none;">
+          <i class="bi bi-plus-lg text-white" style="font-size:27px"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="/post/add">동네생활</a></li>
+        </ul>
+      </div>
+      <!-- end 메인화면일 경우에 노출 -->
 
-      <div class="row bg-dark border-top border-light text-center">
+      <!-- 글 상세 페이지일 경우 노출 start -->
+      <form th:if="${page == 'postDetail'}" action="/comment/add" method="post" id="commentAddForm" style="display:inline;">
+        <input type="hidden" name="postId" th:value="${post.id}">
+        <div class="row bg-dark pb-1 pt-2 px-3 border-top border-secondary" >
+            <div class="col-sm-11">
+              <textarea class="form-control bg-secondary shadow-none text-white rounded" name="content"
+                        id="comment-add-input" rows="1" placeholder="댓글을 입력해주세요." required ></textarea>
+            </div>
+            <div class="col-sm-1">
+              <span style="cursor:pointer;" onclick="document.getElementById('commentAddForm').submit()">
+                <i class="bi bi-arrow-up-circle-fill" style="font-size:30px; color:#ED7014;"></i>
+              </span>
+            </div>
+        </div>
+      </form>
+      <!-- end 글 상세 페이지일 경우 노출 -->
+
+      <div class="row bg-dark border-top border-secondary text-center">
         <div class="col">
           <a href="/" class="text-white text-decoration-none">
             <i class="bi" th:classappend="${page} == home? bi-file-earmark-text-fill : bi-file-earmark-text" style="font-size:25px"></i>

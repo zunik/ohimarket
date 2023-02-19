@@ -26,6 +26,6 @@ public class PostLikeController {
                 loginMember.getId());
 
         redirectAttributes.addAttribute("postId", postId);
-        return "redirect:/post/{postId}";
+        return "redirect:/post/{postId}#likeButton";
     }
 }
