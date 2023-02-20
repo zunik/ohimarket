@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
-import zunik.ohimarket.dto.MemberUpdateDto;
-import zunik.ohimarket.dto.ProfileResponseDto;
+import zunik.ohimarket.controller.dto.MemberUpdateDto;
+import zunik.ohimarket.service.dto.ProfileResponseDto;
 import zunik.ohimarket.service.MemberService;
 import zunik.ohimarket.service.ProfileService;
 
@@ -29,13 +29,6 @@ public class ProfileController {
         ProfileResponseDto profileResponseDto = profileService.getProfile(memberToken);
 
         model.addAttribute("profile", profileResponseDto);
-        return "profile/detailView";
-    }
-
-//    @GetMapping("/myProfile")
-    public String myProfileTest(Model model) {
-        Member member = memberService.findByEmail("chazunik@gmail.com");
-        model.addAttribute("member", member);
         return "profile/detailView";
     }
 

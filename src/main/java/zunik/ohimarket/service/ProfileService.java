@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zunik.ohimarket.domain.Member;
-import zunik.ohimarket.dto.ProfileResponseDto;
+import zunik.ohimarket.service.dto.ProfileResponseDto;
 import zunik.ohimarket.repository.MemberRepository;
 import zunik.ohimarket.repository.PostRepository;
 

@@ -1,4 +1,4 @@
-package zunik.ohimarket.dto;
+package zunik.ohimarket.service.dto;
 
 import lombok.Data;
 import zunik.ohimarket.domain.Member;

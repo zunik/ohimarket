@@ -1,4 +1,4 @@
-package zunik.ohimarket.dto;
+package zunik.ohimarket.controller.dto;
 
 import lombok.Data;
 

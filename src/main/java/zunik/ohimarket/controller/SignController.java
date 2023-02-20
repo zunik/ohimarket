@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
-import zunik.ohimarket.dto.SignInDto;
-import zunik.ohimarket.dto.SignUpDto;
+import zunik.ohimarket.controller.dto.SignInDto;
+import zunik.ohimarket.controller.dto.SignUpDto;
 import zunik.ohimarket.service.MemberService;
 import zunik.ohimarket.service.SignInService;
 

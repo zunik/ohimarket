@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Comment;
 import zunik.ohimarket.domain.Member;
-import zunik.ohimarket.dto.CommentCreateDto;
+import zunik.ohimarket.controller.dto.CommentCreateDto;
 import zunik.ohimarket.service.CommentService;
 
 @Slf4j

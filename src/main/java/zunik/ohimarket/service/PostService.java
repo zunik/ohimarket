@@ -8,8 +8,8 @@ import zunik.ohimarket.domain.Comment;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostCategory;
-import zunik.ohimarket.dto.PostCreateDto;
-import zunik.ohimarket.dto.PostDetailResponseDto;
+import zunik.ohimarket.controller.dto.PostCreateDto;
+import zunik.ohimarket.service.dto.PostDetailResponseDto;
 import zunik.ohimarket.repository.*;
 
 import java.util.List;
