@@ -80,7 +80,8 @@
                         <a href="/profile" th:href="@{|/profile/${comment.member.token}|}" class="text-decoration-none" style="display:block; min-width:300px;">
                             <img th:src="@{https://api.dicebear.com/5.x/personas/svg(radius=50, size=43, backgroundColor='b6e3f4,c0aede,d1d4f9', seed=${comment.member.token})}"
                                  src="https://api.dicebear.com/5.x/personas/svg" alt="avatar" class="float-start me-3"/>
-                            <span class="text-white font-weight-bold h5" th:text="${comment.member.nickname}">닉네임</span> <br />
+                            <span class="text-white font-weight-bold h5" th:text="${comment.member.nickname}">닉네임</span>
+                            <span th:if="${model.post.memberId} == ${comment.member.id}" class="badge badge-outline">작성자</span> <br />
                             <!-- 수정하지 않았을 경우 생성 시간 기준 -->
                             <span th:if="${comment.createdAt} == ${comment.updatedAt}" th:text="${@thymeleafUtils.datetimeToStr(comment.createdAt)}" class="text-muted">3분 전</span>
                             <!-- 수정했을 경우 수정 시간 기준 -->
