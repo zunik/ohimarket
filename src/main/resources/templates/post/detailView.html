@@ -74,14 +74,19 @@
                 가장 먼저 댓글을 남겨보세요.
             </div>
 
-            <div th:each="comment : ${model.comments}" class="mt-3">
+            <div th:each="comment : ${model.comments}" class="mt-3" th:id="${comment.token}">
                 <div class="mb-2 d-flex justify-content-between">
                     <div>
                         <a href="/profile" th:href="@{|/profile/${comment.member.token}|}" class="text-decoration-none" style="display:block; min-width:300px;">
                             <img th:src="@{https://api.dicebear.com/5.x/personas/svg(radius=50, size=43, backgroundColor='b6e3f4,c0aede,d1d4f9', seed=${comment.member.token})}"
                                  src="https://api.dicebear.com/5.x/personas/svg" alt="avatar" class="float-start me-3"/>
                             <span class="text-white font-weight-bold h5" th:text="${comment.member.nickname}">닉네임</span> <br />
-                            <span class="text-muted" th:text="${@thymeleafUtils.datetimeToStr(comment.createdAt)}">3분 전</span>
+                            <!-- 수정하지 않았을 경우 생성 시간 기준 -->
+                            <span th:if="${comment.createdAt} == ${comment.updatedAt}" th:text="${@thymeleafUtils.datetimeToStr(comment.createdAt)}" class="text-muted">3분 전</span>
+                            <!-- 수정했을 경우 수정 시간 기준 -->
+                            <span th:if="${comment.createdAt} != ${comment.updatedAt}" class="text-muted">
+                                <span th:text="${@thymeleafUtils.datetimeToStr(comment.updatedAt)}">3분 전</span> 수정
+                            </span>
                         </a>
                     </div>
                     <!-- 자신의 댓글일 경우 수정 삭제 가능 -->

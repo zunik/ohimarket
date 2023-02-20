@@ -3,10 +3,12 @@ package zunik.ohimarket.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zunik.ohimarket.controller.dto.CommentUpdateDto;
 import zunik.ohimarket.domain.Comment;
 import zunik.ohimarket.repository.CommentRepository;
 import zunik.ohimarket.repository.PostRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,6 +23,21 @@ public class CommentService {
         comment.setToken(UUID.randomUUID().toString());
         commentRepository.save(comment);
         postRepository.increaseCommentCount(comment.getPostId());
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Comment> findByToken(String commentToken) {
+        return commentRepository.findByToken(commentToken);
+    }
+
+    @Transactional
+    public Long update(String commentToken, CommentUpdateDto updateParam) {
+        Comment comment = commentRepository.findByToken(commentToken).get();
+
+        // TODO 인증자의 댓글이 아닐경우 삭제 실패 (memberId) 가 아니라 찾아야함
+
+        comment.setContent(updateParam.getContent());
+        return comment.getPostId();
     }
 
     @Transactional

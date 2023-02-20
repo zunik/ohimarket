@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head(동네생활-댓글수정)"></head>
+<body>
+<header th:replace="fragments/layout :: header(comment)"></header>
+
+<div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
+  <form method="post" th:object="${form}">
+    <div class="mb-3">
+                <textarea class="form-control shadow-none bg-dark text-white"
+                          th:field="*{content}" rows="12" placeholder="댓글을 입력해주세요." required></textarea>
+      <div th:errors="*{content}" style="white-space:pre-wrap">
+        글 오류
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">완료</button>
+  </form>
+</div>
+
+<footer th:replace="fragments/layout :: footer(updateComment)"></footer>
+</body>
+</html>
