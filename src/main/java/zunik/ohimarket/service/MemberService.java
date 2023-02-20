@@ -8,6 +8,7 @@ import zunik.ohimarket.controller.dto.MemberUpdateDto;
 import zunik.ohimarket.repository.MemberRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class MemberService {
 
     @Transactional
     public void save(Member member){
+        member.setToken(UUID.randomUUID().toString());
         repository.save(member);
     }
 

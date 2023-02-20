@@ -4,10 +4,7 @@ package zunik.ohimarket.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Comment;
@@ -36,6 +33,18 @@ public class CommentController {
         comment.setContent(form.getContent());
 
         commentService.save(comment);
+
+        redirectAttributes.addAttribute("postId", postId);
+        return "redirect:/post/{postId}#commentBox";
+    }
+
+    @PostMapping("/delete")
+    public String deletePost(
+            @RequestParam(value = "commentToken") String commentToken,
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
+            RedirectAttributes redirectAttributes
+    ) {
+        Long postId = commentService.delete(commentToken, loginMember.getId());
 
         redirectAttributes.addAttribute("postId", postId);
         return "redirect:/post/{postId}#commentBox";

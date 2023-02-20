@@ -18,7 +18,6 @@ import zunik.ohimarket.service.SignInService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,7 +40,6 @@ public class SignController {
         }
 
         Member member = new Member();
-        member.setToken(UUID.randomUUID().toString());
         member.setEmail(form.getEmail());
         member.setNickname(form.getNickname());
         member.setPassword(form.getPassword());
