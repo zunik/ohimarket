@@ -32,7 +32,7 @@ public class CommentController {
 
         Comment comment = new Comment();
         comment.setPostId(postId);
-        comment.setMemberId(loginMember.getId());
+        comment.setMember(loginMember);
         comment.setContent(form.getContent());
 
         commentService.save(comment);

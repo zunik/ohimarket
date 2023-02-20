@@ -24,6 +24,7 @@ public class PostService {
     private final PostCategoryRepository postCategoryRepository;
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
+    private final CommentQueryRepository commentQueryRepository;
 
     @Transactional
     public void save(Post post) {
@@ -40,8 +41,9 @@ public class PostService {
             return;
         }
 
-        // 게시물에 연결된 Like도 모두 제거
+        // 게시물에 연결된 Like, comment도 모두 제거
         postLikeRepository.deleteByPostId(postId);
+        commentRepository.deleteByPostId(postId);
         postRepository.delete(post);
     }
 
@@ -50,7 +52,7 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow();
         PostCategory postCategory = postCategoryRepository.findById(post.getPostCategoryName()).get();
         Member creator = memberRepository.findById(post.getMemberId()).get();
-        List<Comment> comments = commentRepository.findByPostIdOrderByCreatedAtDesc(postId);
+        List<Comment> comments = commentQueryRepository.findByPostId(postId);
 
         PostDetailResponseDto responseDto = new PostDetailResponseDto();
         responseDto.setPost(post);

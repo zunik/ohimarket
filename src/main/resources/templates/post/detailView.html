@@ -49,7 +49,8 @@
         <div class="col text-muted">
             <label for="comment-add-input" style="cursor:pointer;">
                 <i class="bi bi-chat" style="font-size:21px"></i>
-                댓글쓰기
+                <span th:text="${model.post.commentCount} > 0? '댓글' : '댓글쓰기'">댓글쓰기</span>
+                <span th:if="${model.post.commentCount} > 0" th:text="${model.post.commentCount}">1</span>
             </label>
 
         </div>
@@ -61,17 +62,24 @@
                    onclick="document.getElementById('likeForm').submit()">
                     <i class="bi bi-heart" style="font-size:21px"></i>
                     관심
-                    <span th:if="${model.post.likeCount} != 0" th:text="${model.post.likeCount}">1</span>
+                    <span th:if="${model.post.likeCount} > 0" th:text="${model.post.likeCount}">1</span>
                 </span>
             </form>
         </div>
     </div>
 
-    <div class="text-muted text-center mt-5 mb-5 pb-3">
-        <div class="h4 mb-5 pb-5" id="commentBox">
-            아직 댓글이 없어요. <br />
-            가장 먼저 댓글을 남겨보세요.
+    <div class="mt-5 mb-5 pb-3" id="commentBox">
+        <div class="mb-5 pb-5">
+            <div th:if="${#lists.isEmpty(model.comments)}" class="text-center text-muted h4">
+                아직 댓글이 없어요. <br />
+                가장 먼저 댓글을 남겨보세요.
+            </div>
+
+            <div th:each="comment : ${model.comments}">
+                <span th:text="${comment.content}"></span>
+            </div>
         </div>
+
     </div>
 </div>
 
