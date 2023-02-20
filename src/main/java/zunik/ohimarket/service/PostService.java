@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zunik.ohimarket.domain.Comment;
+import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
+import zunik.ohimarket.domain.PostCategory;
 import zunik.ohimarket.dto.PostCreateDto;
-import zunik.ohimarket.repository.PostLikeRepository;
-import zunik.ohimarket.repository.PostRepository;
+import zunik.ohimarket.dto.PostDetailResponseDto;
+import zunik.ohimarket.repository.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +21,9 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostCategoryRepository postCategoryRepository;
+    private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public void save(Post post) {
@@ -38,6 +44,23 @@ public class PostService {
         postLikeRepository.deleteByPostId(postId);
         postRepository.delete(post);
     }
+
+    @Transactional(readOnly = true)
+    public PostDetailResponseDto getDetail(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        PostCategory postCategory = postCategoryRepository.findById(post.getPostCategoryName()).get();
+        Member creator = memberRepository.findById(post.getMemberId()).get();
+        List<Comment> comments = commentRepository.findByPostIdOrderByCreatedAtDesc(postId);
+
+        PostDetailResponseDto responseDto = new PostDetailResponseDto();
+        responseDto.setPost(post);
+        responseDto.setPostCategory(postCategory);
+        responseDto.setCreator(creator);
+        responseDto.setComments(comments);
+
+        return responseDto;
+    }
+
 
     @Transactional
     public void update(Long postId, Long memberId, PostCreateDto updateParam) {

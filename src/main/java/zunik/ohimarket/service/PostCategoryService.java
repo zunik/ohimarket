@@ -23,11 +23,6 @@ public class PostCategoryService {
         return postCategoryRepository.findByOrderBySortNumAsc();
     }
 
-    @Transactional
-    public Optional<PostCategory> findById(String name) {
-        return postCategoryRepository.findById(name);
-    }
-
     /**
      *  key 로 DisplayName 을 바로 찾을 수 있게
      *  Dict 로 변환해서 넘겨줌

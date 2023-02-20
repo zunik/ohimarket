@@ -21,7 +21,10 @@
                         <span class="text-muted" th:text="${@thymeleafUtils.datetimeToStr(post.createdAt)}">11분전</span>
                     </div>
                     <div class="text-white">
-                        <span><i class="bi bi-chat text-muted"></i> 3</span>
+                        <span th:if="${post.commentCount} != 0">
+                            <i class="bi bi-chat text-muted"></i>
+                            <span th:text="${post.commentCount}">1</span>
+                        </span>
                         <span th:if="${post.likeCount} != 0">
                             <i class="bi bi-heart text-muted"></i>
                             <span th:text="${post.likeCount}">1</span>

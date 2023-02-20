@@ -13,9 +13,8 @@ import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostCategory;
-import zunik.ohimarket.dto.MemberUpdateDto;
 import zunik.ohimarket.dto.PostCreateDto;
-import zunik.ohimarket.service.MemberService;
+import zunik.ohimarket.dto.PostDetailResponseDto;
 import zunik.ohimarket.service.PostCategoryService;
 import zunik.ohimarket.service.PostLikeService;
 import zunik.ohimarket.service.PostService;
@@ -32,7 +31,6 @@ import java.util.List;
 public class PostController {
     private final PostCategoryService postCategoryService;
     private final PostService postService;
-    private final MemberService memberService;
     private final PostLikeService postLikeService;
 
     @GetMapping("/add")
@@ -72,20 +70,16 @@ public class PostController {
             HttpServletResponse response,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember
     ) {
-        Post post = postService.findById(postId).orElseThrow();
-        PostCategory postCategory = postCategoryService.findById(post.getPostCategoryName()).get();
-        Member member = memberService.findById(post.getMemberId()).get();
+        PostDetailResponseDto responseDto = postService.getDetail(postId);
 
         boolean isLike = postLikeService.PostLikeCheck(
-                post.getId(), loginMember.getId()
+                postId, loginMember.getId()
         );
 
-        visit(post.getId(), request, response);
+        visit(postId, request, response);
 
         model.addAttribute("isLike", isLike);
-        model.addAttribute("postCategory", postCategory);
-        model.addAttribute("post", post);
-        model.addAttribute("member", member);
+        model.addAttribute("model", responseDto);
         return "post/detailView";
     }
 

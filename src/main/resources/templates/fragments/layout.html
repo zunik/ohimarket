@@ -71,7 +71,7 @@
 
       <!-- 글 상세 페이지일 경우 노출 start -->
       <form th:if="${page == 'postDetail'}" action="/comment/add" method="post" id="commentAddForm" style="display:inline;">
-        <input type="hidden" name="postId" th:value="${post.id}">
+        <input type="hidden" name="postId" th:value="${model.post.id}">
         <div class="row bg-dark pb-1 pt-2 px-3 border-top border-secondary" >
             <div class="col-sm-11">
               <textarea class="form-control bg-secondary shadow-none text-white rounded" name="content"

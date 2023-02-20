@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
+import zunik.ohimarket.domain.Comment;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.dto.CommentCreateDto;
+import zunik.ohimarket.service.CommentService;
 
 @Slf4j
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
+    private final CommentService commentService;
+
     @PostMapping("/add")
     public String addComment(
             @ModelAttribute CommentCreateDto form,
@@ -26,7 +30,12 @@ public class CommentController {
     ) {
         Long postId = form.getPostId();
 
-        log.info("postId가 나와?? : {}", postId);
+        Comment comment = new Comment();
+        comment.setPostId(postId);
+        comment.setMemberId(loginMember.getId());
+        comment.setContent(form.getContent());
+
+        commentService.save(comment);
 
         redirectAttributes.addAttribute("postId", postId);
         return "redirect:/post/{postId}#commentBox";
