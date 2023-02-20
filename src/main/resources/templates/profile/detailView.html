@@ -19,18 +19,19 @@
         </div>
         <div class="row text-center mb-4">
             <div class="col">
-                <span th:text="${profile.totalViews}"
-                      th:classappend="${profile.totalViews} == 0? text-secondary : text-white">0</span><br />
+                <span th:text="${profile.summary.totalViews}"
+                      th:classappend="${profile.summary.totalViews} == 0? text-secondary : text-white">0</span><br />
                 <span class="text-muted">누적 조회수</span>
             </div>
             <div class="col">
-                <span th:text="${profile.totalLikeCount}"
-                      th:classappend="${profile.totalLikeCount} == 0? text-secondary : text-white">0</span><br />
+                <span th:text="${profile.summary.totalLikeCount}"
+                      th:classappend="${profile.summary.totalLikeCount} == 0? text-secondary : text-white">0</span><br />
                 <span class="text-muted">받은 좋아요수</span>
             </div>
             <div class="col">
-                <span class="text-secondary">0</span><br />
-                <span class="text-muted">칭찬 당근</span>
+                <span th:text="${profile.summary.totalCommentCount}"
+                      th:classappend="${profile.summary.totalCommentCount} == 0? text-secondary : text-white">0</span><br />
+                <span class="text-muted">받은 댓글수</span>
             </div>
         </div>
         <div class="mb-2" th:text="${profile.member.introduction}">
