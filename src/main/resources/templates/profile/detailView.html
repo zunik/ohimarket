@@ -54,7 +54,7 @@
                 </li>
                 <li class="nav-item col-sm-6" role="presentation">
                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-                        댓글단 글 <span>0</span>
+                        댓글단 글 <span th:text="${#lists.size(profile.commentaryPosts)}">0</span>
                     </button>
                 </li>
             </ul>
@@ -85,6 +85,7 @@
                             <a href="/" class="btn btn-secondary btn-lg">다른 이웃글보기</a>
                         </th:block>
                     </div>
+                    <th:block th:replace="fragments/posts :: posts(${profile.commentaryPosts}, ${categoriesMap})"></th:block>
                 </div>
             </div>
         </div>

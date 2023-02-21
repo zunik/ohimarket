@@ -32,10 +32,16 @@ public class ProfileService {
 
         List<Post> writtenPosts = postRepository.findByMemberIdOrderByCreatedAtDesc(member.getId());
 
+        List<Post> commentaryPosts = postQueryRepository.getCommentaryPosts(member.getId());
+        for (Post post: commentaryPosts) {
+            log.info("post: {}", post.getTitle());
+        }
+
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
         profileResponseDto.setMember(member);
         profileResponseDto.setSummary(summeryDto);
         profileResponseDto.setWrittenPosts(writtenPosts);
+        profileResponseDto.setCommentaryPosts(commentaryPosts);
 
         return profileResponseDto;
     }
