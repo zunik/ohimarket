@@ -5,7 +5,7 @@
 <header th:replace="fragments/layout :: header(post)"></header>
 
     <div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
-        <form method="post" th:object="${form}">
+        <form method="post" th:object="${form}" enctype="multipart/form-data">
             <div class="mb-3">
                 <select class="form-select shadow-none bg-dark text-white" th:field="*{postCategoryName}">
                     <option th:each="postCategory : ${postCategories}" th:value="${postCategory.name}" th:text="${postCategory.displayName}">One</option>
@@ -22,6 +22,23 @@
                     글 오류
                 </div>
             </div>
+            <div class="mb-3">
+                <div class="input-group">
+                    <label class="input-group-text" for="inputGroupFile"><i class="bi bi-image"></i></label>
+                    <input type="file" class="form-control bg-dark text-white" name="image" id="inputGroupFile">
+                </div>
+                <div class="form-text">
+                    새로운 이미지를 올리면 기존 이미지는 대체됩니다.
+                </div>
+            </div>
+            <div th:if="${post.imgName} != null" class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="deleteImg" value="ok" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    <img th:src="|/images/${post.imgName}/thumbnail|" class="img-thumbnail">
+                    기존 이미지 삭제
+                </label>
+            </div>
+
             <button type="submit" class="btn btn-primary">수정완료</button>
         </form>
     </div>

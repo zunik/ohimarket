@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class PostCreateDto {
+public class PostUpdateDto {
     @NotBlank
     private String title;
 
@@ -18,4 +18,6 @@ public class PostCreateDto {
     private String postCategoryName;
 
     private MultipartFile image;
+
+    private String deleteImg;
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zunik.ohimarket.controller.dto.PostUpdateDto;
 import zunik.ohimarket.domain.Comment;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
@@ -11,7 +12,9 @@ import zunik.ohimarket.domain.PostCategory;
 import zunik.ohimarket.controller.dto.PostCreateDto;
 import zunik.ohimarket.service.dto.PostDetailResponseDto;
 import zunik.ohimarket.repository.*;
+import zunik.ohimarket.utils.ImgFileStore;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,9 +28,26 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
     private final CommentQueryRepository commentQueryRepository;
+    private final ImgFileStore imgFileStore;
 
     @Transactional
-    public void save(Post post) {
+    public void save(PostCreateDto createParam, Long memberId) {
+        Post post = new Post();
+
+        if (!createParam.getImage().isEmpty()) {
+            try {
+                String imgName = imgFileStore.storeFile(createParam.getImage());
+                post.setImgName(imgName);
+            } catch (IOException e) {
+                log.info("error", e);
+            }
+        }
+
+        post.setPostCategoryName(createParam.getPostCategoryName());
+        post.setTitle(createParam.getTitle());
+        post.setContent(createParam.getContent());
+        post.setMemberId(memberId);
+
         postRepository.save(post);
     }
 
@@ -44,6 +64,12 @@ public class PostService {
         // 게시물에 연결된 Like, comment도 모두 제거
         postLikeRepository.deleteByPostId(postId);
         commentRepository.deleteByPostId(postId);
+
+        // 파일 삭제
+        if (post.getImgName() != null) {
+            imgFileStore.deleteFile(post.getImgName());
+        }
+
         postRepository.delete(post);
     }
 
@@ -65,13 +91,33 @@ public class PostService {
 
 
     @Transactional
-    public void update(Long postId, Long memberId, PostCreateDto updateParam) {
+    public void update(Long postId, Long memberId, PostUpdateDto updateParam) {
         Post post = postRepository.findById(postId).get();
 
         if (post.getMemberId() != memberId) {
             // TODO 밖으로 Exc 넘겨서 권한 처리
             log.info("수정하려는 글에 권한이 없음");
             return;
+        }
+
+        if (!updateParam.getImage().isEmpty()) {
+            String oldImgName = post.getImgName();
+
+            try {
+                String imgName = imgFileStore.storeFile(updateParam.getImage());
+                post.setImgName(imgName);
+            } catch (IOException e) {
+                log.info("error", e);
+            }
+
+            if (oldImgName != null) {
+                // 변경 전 이미지 삭제
+                imgFileStore.deleteFile(oldImgName);
+            }
+        } else if (post.getImgName() != null && updateParam.getDeleteImg() != null) {
+            // 기존 이미지 삭제 토글로도 삭제 가능
+            imgFileStore.deleteFile(post.getImgName());
+            post.setImgName(null);
         }
 
         post.setTitle(updateParam.getTitle());

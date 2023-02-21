@@ -37,6 +37,8 @@ public class Post {
     @ColumnDefault("0")
     private Long commentCount;
 
+    private String imgName;
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
