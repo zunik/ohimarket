@@ -41,7 +41,7 @@
     <div class="mb-3">
         <div style="white-space:pre-wrap" th:text="${model.post.content}"></div>
         <div th:if="${model.post.imgName} != null" class="mt-4">
-            <img th:src="|/images/${model.post.imgName}|" class="img img-fluid rounded"/>
+            <img th:src="|/images/${model.post.imgName}|" class="img-fluid rounded"/>
         </div>
     </div>
 
