@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zunik.ohimarket.domain.Member;
+import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.repository.PostQueryRepository;
 import zunik.ohimarket.repository.dto.MemberSummeryDto;
 import zunik.ohimarket.service.dto.ProfileResponseDto;
@@ -23,15 +24,18 @@ public class ProfileService {
     private final PostQueryRepository postQueryRepository;
 
     @Transactional(readOnly = true)
-    public ProfileResponseDto getProfile(String memberToken) {
+    public ProfileResponseDto getDetail(String memberToken) {
         Member member = memberRepository.findByToken(memberToken).orElseThrow(
                 () -> new IllegalArgumentException("해당 토큰의 계정을 찾지 못했습니다.")
         );
         MemberSummeryDto summeryDto = postQueryRepository.summaryByMemberId(member.getId());
 
+        List<Post> writtenPosts = postRepository.findByMemberIdOrderByCreatedAtDesc(member.getId());
+
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
         profileResponseDto.setMember(member);
         profileResponseDto.setSummary(summeryDto);
+        profileResponseDto.setWrittenPosts(writtenPosts);
 
         return profileResponseDto;
     }

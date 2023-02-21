@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <th:block th:fragment="posts(posts, categoriesMap)">
+    <div class="border-top border-secondary pt-3 mb-3"
+         th:each="post : ${posts}">
+      <a href="#" th:href="@{|/post/${post.id}|}" class="text-decoration-none">
+        <div class="row">
+          <div class="col-sm-10">
+            <div class="d-flex w-100 mb-1">
+              <h5 class="text-white" th:text="${post.title}"></h5>
+            </div>
+            <div class="text-muted mb-1">
+              <span class="text-info font-weight-bold" th:text="${categoriesMap.get(post.postCategoryName)}">동네질문</span>
+              ·
+              <span class="text-muted">봉천동</span>
+              ·
+              <span class="text-muted" th:text="${@thymeleafUtils.datetimeToStr(post.createdAt)}">11분전</span>
+            </div>
+            <div class="text-white">
+                            <span th:if="${post.commentCount} != 0">
+                                <i class="bi bi-chat text-muted"></i>
+                                <span th:text="${post.commentCount}">1</span>
+                            </span>
+              <span th:if="${post.likeCount} != 0">
+                                <i class="bi bi-heart text-muted"></i>
+                                <span th:text="${post.likeCount}">1</span>
+                            </span>
+            </div>
+          </div>
+          <div th:if="${post.imgName} != null" class="col-sm-2">
+            <img th:src="|/images/${post.imgName}/thumbnail|" class="rounded">
+          </div>
+        </div>
+      </a>
+    </div>
+  </th:block>
+</body>
+</html>

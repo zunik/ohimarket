@@ -49,7 +49,7 @@
             <ul class="nav nav-tabs row" id="myTab" role="tablist">
                 <li class="nav-item col-sm-6" role="presentation">
                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
-                        작성한 글 <span>0</span>
+                        작성한 글 <span th:text="${#lists.size(profile.writtenPosts)}">0</span>
                     </button>
                 </li>
                 <li class="nav-item col-sm-6" role="presentation">
@@ -60,8 +60,7 @@
             </ul>
             <div class="tab-content pb-5" id="myTabContent">
                 <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-
-                    <div class="text-center text-muted h4 mt-5">
+                    <div th:if="${#lists.isEmpty(profile.writtenPosts)}" class="text-center text-muted h4 mt-5">
                         <!-- 글 활동 내역이 없을 경우 보여줌 -->
                         <th:block th:if="${profile.member.token} == ${session.loginMember.token}">
                             첫 동네 이야기를 이웃에게 알려주세요. <br /><br />
@@ -72,9 +71,10 @@
                             <a href="/" class="btn btn-secondary btn-lg">다른 이웃글보기</a>
                         </th:block>
                     </div>
+                    <th:block th:replace="fragments/posts :: posts(${profile.writtenPosts}, ${categoriesMap})"></th:block>
                 </div>
                 <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                    <div class="text-center text-muted h4 mt-5">
+                    <div th:if="${#lists.isEmpty(profile.commentaryPosts)}" class="text-center text-muted h4 mt-5">
                         <!-- 댓글 활동 내역이 없을 경우 보여줌 -->
                         <th:block th:if="${profile.member.token} == ${session.loginMember.token}">
                             댓글 참여한 글을 확인할 수 있어요. <br /><br />

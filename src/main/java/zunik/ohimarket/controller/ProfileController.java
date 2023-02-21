@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.controller.dto.MemberUpdateDto;
+import zunik.ohimarket.service.PostCategoryService;
 import zunik.ohimarket.service.dto.ProfileResponseDto;
 import zunik.ohimarket.service.MemberService;
 import zunik.ohimarket.service.ProfileService;
@@ -21,13 +22,15 @@ import zunik.ohimarket.service.ProfileService;
 public class ProfileController {
     private final MemberService memberService;
     private final ProfileService profileService;
+    private final PostCategoryService postCategoryService;
 
     @GetMapping("/profile/{memberToken}")
-    public String myProfile(
+    public String profileDetail(
             @PathVariable String memberToken,
             Model model) {
-        ProfileResponseDto profileResponseDto = profileService.getProfile(memberToken);
+        ProfileResponseDto profileResponseDto = profileService.getDetail(memberToken);
 
+        model.addAttribute("categoriesMap", postCategoryService.findAllTransMap());
         model.addAttribute("profile", profileResponseDto);
         return "profile/detailView";
     }

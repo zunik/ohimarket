@@ -10,6 +10,8 @@ import java.util.List;
 public interface PostRepository  extends JpaRepository<Post, Long> {
     List<Post> findByOrderByCreatedAtDesc();
 
+    List<Post> findByMemberIdOrderByCreatedAtDesc(Long id);
+
     @Modifying
     @Query("UPDATE Post p SET p.views = p.views + 1 WHERE p.id = :id")
     void increaseViews(Long id);
