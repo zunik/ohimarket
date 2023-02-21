@@ -38,6 +38,38 @@
           border: 1px solid #6c757d;
           padding: 3px;
       }
+
+      /* 프로필 nav 부분 */
+      #myTab {
+        border-bottom: 2px solid gray;
+      }
+
+      #myTab > li > button {
+        display:block;
+        width: 100%;
+        color: gray;
+      }
+
+      #myTab > li {
+        padding:0;
+      }
+
+      #myTab .nav-link.active {
+        color: white;
+        background :none;
+        border: none;
+        border-bottom : 3px solid white;
+      }
+
+      #myTab .nav-link:hover {
+        border-right: none;
+        border-left: none;
+        border-top: none;
+      }
+
+      #myTabContent > .tab-pane {
+        padding-top:20px;
+      }
   </style>
 </head>
 <body>

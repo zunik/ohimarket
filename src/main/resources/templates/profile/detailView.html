@@ -34,12 +34,59 @@
                 <span class="text-muted">받은 댓글수</span>
             </div>
         </div>
-        <div class="mb-2" th:text="${profile.member.introduction}">
+        <div class="mb-4" th:text="${profile.member.introduction}">
             책 좋아해용 히히
         </div>
         <!-- 자신의 프로필일 경우만 수정 버튼을 보여준다. -->
-        <div class="d-grid gap-2" th:if="${profile.member.token} == ${session.loginMember.token}">
+        <div th:if="${profile.member.token} == ${session.loginMember.token}" class="d-grid gap-2 mb-4">
             <a href="/myProfile/edit" class="btn btn-secondary" type="button">프로필 수정</a>
+        </div>
+
+        <hr style="border-top:10px solid black;" class="row">
+
+        <div class="mt-4">
+            <div class="fs-4 fw-bold mb-4">게시글</div>
+            <ul class="nav nav-tabs row" id="myTab" role="tablist">
+                <li class="nav-item col-sm-6" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
+                        작성한 글 <span>0</span>
+                    </button>
+                </li>
+                <li class="nav-item col-sm-6" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
+                        댓글단 글 <span>0</span>
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content pb-5" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+                    <div class="text-center text-muted h4 mt-5">
+                        <!-- 글 활동 내역이 없을 경우 보여줌 -->
+                        <th:block th:if="${profile.member.token} == ${session.loginMember.token}">
+                            첫 동네 이야기를 이웃에게 알려주세요. <br /><br />
+                            <a href="/post/add" class="btn btn-secondary btn-lg">동네생활 글쓰기</a>
+                        </th:block>
+                        <th:block th:unless="${profile.member.token} == ${session.loginMember.token}">
+                            활동한 내역이 없어요 <br /><br />
+                            <a href="/" class="btn btn-secondary btn-lg">다른 이웃글보기</a>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                    <div class="text-center text-muted h4 mt-5">
+                        <!-- 댓글 활동 내역이 없을 경우 보여줌 -->
+                        <th:block th:if="${profile.member.token} == ${session.loginMember.token}">
+                            댓글 참여한 글을 확인할 수 있어요. <br /><br />
+                            <a href="/" class="btn btn-secondary btn-lg">동네생활 둘러보기</a>
+                        </th:block>
+                        <th:block th:unless="${profile.member.token} == ${session.loginMember.token}">
+                            활동한 내역이 없어요 <br /><br />
+                            <a href="/" class="btn btn-secondary btn-lg">다른 이웃글보기</a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- 자신의 프로필인지의 여부로 footer로 보내는 값 달라짐 -->
