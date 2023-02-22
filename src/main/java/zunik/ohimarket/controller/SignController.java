@@ -38,13 +38,7 @@ public class SignController {
             log.info("errors = {}", bindingResult);
             return "sign/signUp";
         }
-
-        Member member = new Member();
-        member.setEmail(form.getEmail());
-        member.setNickname(form.getNickname());
-        member.setPassword(form.getPassword());
-        member.setIntroduction(form.getIntroduction());
-        memberService.save(member);
+        memberService.save(form);
 
         return "redirect:/signIn";
     }

@@ -1,4 +1,4 @@
-package zunik.ohimarket;
+package zunik.ohimarket.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

@@ -1,4 +1,4 @@
-package zunik.ohimarket;
+package zunik.ohimarket.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

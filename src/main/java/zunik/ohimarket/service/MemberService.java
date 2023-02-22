@@ -1,8 +1,10 @@
 package zunik.ohimarket.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zunik.ohimarket.controller.dto.SignUpDto;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.controller.dto.MemberUpdateDto;
 import zunik.ohimarket.repository.MemberRepository;
@@ -14,10 +16,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void save(Member member){
+    public void save(SignUpDto createParam){
+        Member member = new Member();
+        member.setEmail(createParam.getEmail());
+        member.setNickname(createParam.getNickname());
+        member.setIntroduction(createParam.getIntroduction());
         member.setToken(UUID.randomUUID().toString());
+
+        String encodedPassword = passwordEncoder.encode(createParam.getPassword());
+        member.setPassword(encodedPassword);
+
         repository.save(member);
     }
 

@@ -27,8 +27,6 @@ public class Comment {
     @Column(nullable = false)
     private Long postId;
 
-    private Long parentId;
-
     @Column(columnDefinition = "TEXT")
     private String content;
 

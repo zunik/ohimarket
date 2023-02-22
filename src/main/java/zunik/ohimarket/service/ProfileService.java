@@ -31,11 +31,7 @@ public class ProfileService {
         MemberSummeryDto summeryDto = postQueryRepository.summaryByMemberId(member.getId());
 
         List<Post> writtenPosts = postRepository.findByMemberIdOrderByCreatedAtDesc(member.getId());
-
         List<Post> commentaryPosts = postQueryRepository.getCommentaryPosts(member.getId());
-        for (Post post: commentaryPosts) {
-            log.info("post: {}", post.getTitle());
-        }
 
         ProfileResponseDto profileResponseDto = new ProfileResponseDto();
         profileResponseDto.setMember(member);
