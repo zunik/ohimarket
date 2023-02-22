@@ -3,6 +3,7 @@ package zunik.ohimarket.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostLike;
 import zunik.ohimarket.repository.PostLikeRepository;
 import zunik.ohimarket.repository.PostRepository;
@@ -14,7 +15,10 @@ public class PostLikeService {
     private final PostRepository postRepository;
 
     @Transactional
-    public void LikeToggle(Long postId, Long memberId) {
+    public void LikeToggle(String postToken, Long memberId) {
+        Post post = postRepository.findByToken(postToken).get();
+        Long postId = post.getId();
+
         PostLike postLike = postLikeRepository.findByPostIdAndMemberId(postId, memberId);
 
         if (postLike == null) {

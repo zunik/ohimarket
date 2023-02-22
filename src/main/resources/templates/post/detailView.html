@@ -14,10 +14,10 @@
                 <i class="bi bi-three-dots-vertical" style="font-size:20px"></i>
             </span>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#" th:href="@{|/post/${model.post.id}/edit|}">수정</a></li>
+                <li><a class="dropdown-item" href="#" th:href="@{|/post/${model.post.token}/edit|}">수정</a></li>
                 <li>
                     <form action="/post/delete" method="post" style="display: inline;">
-                        <input type="hidden" name="postId" th:value="${model.post.id}">
+                        <input type="hidden" name="postToken" th:value="${model.post.token}">
                         <button type="submit" class="dropdown-item" onclick="return confirm('게시글을 삭제하시겠습니까?')">삭제</button>
                     </form>
                 </li>
@@ -58,7 +58,7 @@
         </div>
         <div class="col" id="likeButton">
             <form action="/like" method="post" id="likeForm" style="display: inline;">
-                <input type="hidden" name="postId" th:value="${model.post.id}">
+                <input type="hidden" name="postToken" th:value="${model.post.token}">
                 <span style="cursor:pointer;"
                    th:classappend="${isLike}? text-danger : text-muted"
                    onclick="document.getElementById('likeForm').submit()">

@@ -6,11 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import zunik.ohimarket.domain.Post;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository  extends JpaRepository<Post, Long> {
     List<Post> findByOrderByCreatedAtDesc();
 
     List<Post> findByMemberIdOrderByCreatedAtDesc(Long id);
+
+    Optional<Post> findByToken(String Token);
 
     @Modifying
     @Query("UPDATE Post p SET p.views = p.views + 1 WHERE p.id = :id")

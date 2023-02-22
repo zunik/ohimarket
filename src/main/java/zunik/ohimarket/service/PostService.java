@@ -17,6 +17,7 @@ import zunik.ohimarket.utils.ImgFileStore;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -47,13 +48,14 @@ public class PostService {
         post.setTitle(createParam.getTitle());
         post.setContent(createParam.getContent());
         post.setMemberId(memberId);
+        post.setToken(UUID.randomUUID().toString());
 
         postRepository.save(post);
     }
 
     @Transactional
-    public void delete(Long postId, Long memberId) {
-        Post post = postRepository.findById(postId).get();
+    public void delete(String postToken, Long memberId) {
+        Post post = postRepository.findByToken(postToken).get();
 
         if (post.getMemberId() != memberId) {
             // TODO 밖으로 Exc 넘겨서 권한 처리
@@ -62,8 +64,8 @@ public class PostService {
         }
 
         // 게시물에 연결된 Like, comment도 모두 제거
-        postLikeRepository.deleteByPostId(postId);
-        commentRepository.deleteByPostId(postId);
+        postLikeRepository.deleteByPostId(post.getId());
+        commentRepository.deleteByPostId(post.getId());
 
         // 파일 삭제
         if (post.getImgName() != null) {
@@ -74,11 +76,11 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostDetailResponseDto getDetail(Long postId) {
-        Post post = postRepository.findById(postId).orElseThrow();
+    public PostDetailResponseDto getDetail(String postToken) {
+        Post post = postRepository.findByToken(postToken).orElseThrow();
         PostCategory postCategory = postCategoryRepository.findById(post.getPostCategoryName()).get();
         Member creator = memberRepository.findById(post.getMemberId()).get();
-        List<Comment> comments = commentQueryRepository.findByPostId(postId);
+        List<Comment> comments = commentQueryRepository.findByPostId(post.getId());
 
         PostDetailResponseDto responseDto = new PostDetailResponseDto();
         responseDto.setPost(post);
@@ -91,8 +93,8 @@ public class PostService {
 
 
     @Transactional
-    public void update(Long postId, Long memberId, PostUpdateDto updateParam) {
-        Post post = postRepository.findById(postId).get();
+    public void update(String postToken, Long memberId, PostUpdateDto updateParam) {
+        Post post = postRepository.findByToken(postToken).get();
 
         if (post.getMemberId() != memberId) {
             // TODO 밖으로 Exc 넘겨서 권한 처리
@@ -126,9 +128,10 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Post> findById(Long id) {
-        return postRepository.findById(id);
+    public Optional<Post> findByToken(String token) {
+        return postRepository.findByToken(token);
     }
+
 
     @Transactional(readOnly = true)
     public List<Post> findAll() {

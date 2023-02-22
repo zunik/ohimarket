@@ -29,17 +29,11 @@ public class CommentController {
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             RedirectAttributes redirectAttributes
     ) {
-        Long postId = form.getPostId();
+        String postToken = form.getPostToken();
+        commentService.save(form, loginMember);
 
-        Comment comment = new Comment();
-        comment.setPostId(postId);
-        comment.setMember(loginMember);
-        comment.setContent(form.getContent());
-
-        commentService.save(comment);
-
-        redirectAttributes.addAttribute("postId", postId);
-        return "redirect:/post/{postId}#commentBox";
+        redirectAttributes.addAttribute("postToken", postToken);
+        return "redirect:/post/{postToken}#commentBox";
     }
 
     @GetMapping("/{commentToken}/edit")
@@ -71,13 +65,13 @@ public class CommentController {
             return "post/editForm";
         }
 
-        Long postId = commentService.update(
+        String postToken = commentService.update(
                 commentToken, form
         );
 
-        redirectAttributes.addAttribute("postId", postId);
+        redirectAttributes.addAttribute("postToken", postToken);
         redirectAttributes.addAttribute("commentToken", commentToken);
-        return "redirect:/post/{postId}#{commentToken}";
+        return "redirect:/post/{postToken}#{commentToken}";
     }
 
     @PostMapping("/delete")
@@ -86,9 +80,9 @@ public class CommentController {
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             RedirectAttributes redirectAttributes
     ) {
-        Long postId = commentService.delete(commentToken, loginMember.getId());
+        String postToken = commentService.delete(commentToken, loginMember.getId());
 
-        redirectAttributes.addAttribute("postId", postId);
-        return "redirect:/post/{postId}#commentBox";
+        redirectAttributes.addAttribute("postToken", postToken);
+        return "redirect:/post/{postToken}#commentBox";
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.controller.dto.PostUpdateDto;
-import zunik.ohimarket.utils.ImgFileStore;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostCategory;
@@ -24,7 +23,6 @@ import zunik.ohimarket.service.PostService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -60,17 +58,18 @@ public class PostController {
         return "redirect:/";
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/{postToken}")
     public String postDetail(
-            @PathVariable long postId,
+            @PathVariable String postToken,
             Model model,
             HttpServletRequest request,
             HttpServletResponse response,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember
     ) {
-        visit(postId, request, response);
+        PostDetailResponseDto responseDto = postService.getDetail(postToken);
+        Long postId = responseDto.getPost().getId();
 
-        PostDetailResponseDto responseDto = postService.getDetail(postId);
+        visit(postId, request, response);
 
         boolean isLike = postLikeService.PostLikeCheck(
                 postId, loginMember.getId()
@@ -81,13 +80,13 @@ public class PostController {
         return "post/detailView";
     }
 
-    @GetMapping("/{postId}/edit")
+    @GetMapping("/{postToken}/edit")
     public String editForm(
-            @PathVariable long postId,
+            @PathVariable String postToken,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             Model model
     ) {
-        Post post = postService.findById(postId).orElseThrow();
+        Post post = postService.findByToken(postToken).orElseThrow();
         List<PostCategory> postCategories = postCategoryService.findAll();
 
         if (post.getMemberId() != loginMember.getId()) {
@@ -108,9 +107,9 @@ public class PostController {
         return "post/editForm";
     }
 
-    @PostMapping("/{postId}/edit")
+    @PostMapping("/{postToken}/edit")
     public String editPost(
-            @PathVariable long postId,
+            @PathVariable String postToken,
             @Validated @ModelAttribute("form") PostUpdateDto form,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             BindingResult bindingResult,
@@ -122,20 +121,20 @@ public class PostController {
         }
 
         postService.update(
-                postId, loginMember.getId(),
+                postToken, loginMember.getId(),
                 form
         );
 
-        redirectAttributes.addAttribute("postId", postId);
-        return "redirect:/post/{postId}";
+        redirectAttributes.addAttribute("postToken", postToken);
+        return "redirect:/post/{postToken}";
     }
 
     @PostMapping("/delete")
     public String deletePost(
-            @RequestParam(value = "postId") Long postId,
+            @RequestParam(value = "postToken") String postToken,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember
     ) {
-        postService.delete(postId, loginMember.getId());
+        postService.delete(postToken, loginMember.getId());
         return "redirect:/";
     }
 

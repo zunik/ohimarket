@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 public class Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, nullable = false)
+    private String token;
     @Column(nullable = false)
     private Long memberId;
 

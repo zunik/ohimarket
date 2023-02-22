@@ -17,15 +17,15 @@ public class PostLikeController {
 
     @PostMapping("/like")
     public String like(
-            @RequestParam(value = "postId") Long postId,
+            @RequestParam(value = "postToken") String postToken,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             RedirectAttributes redirectAttributes
     ) {
         postLikeService.LikeToggle(
-                postId,
+                postToken,
                 loginMember.getId());
 
-        redirectAttributes.addAttribute("postId", postId);
-        return "redirect:/post/{postId}#likeButton";
+        redirectAttributes.addAttribute("postToken", postToken);
+        return "redirect:/post/{postToken}#likeButton";
     }
 }
