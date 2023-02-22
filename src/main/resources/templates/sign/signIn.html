@@ -7,11 +7,11 @@
   <form method="post" th:object="${form}">
     <div class="mb-3">
       <label th:for="email" class="form-label">이메일</label>
-      <input type="email" class="form-control" th:field="*{email}" required>
+      <input th:field="*{email}" type="email" class="form-control" placeholder="이메일을 입력해주세요." required>
     </div>
     <div class="mb-3">
       <label th:for="password" class="form-label">비밀번호</label>
-      <input type="password" class="form-control" th:field="*{password}" required>
+      <input th:field="*{password}" type="password" class="form-control" placeholder="비밀번호를 입력해주세요." required>
     </div>
     <button type="submit" class="btn btn-primary">로그인</button>
   </form>

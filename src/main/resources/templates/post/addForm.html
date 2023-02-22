@@ -8,25 +8,33 @@
         <form method="post" th:object="${form}" enctype="multipart/form-data">
             <div class="mb-3">
                 <select class="form-select shadow-none bg-dark text-white" th:field="*{postCategoryName}">
-                    <option value="" selected>게시글의 주제를 선택해주세요.</option>
                     <option th:each="postCategory : ${postCategories}" th:value="${postCategory.name}" th:text="${postCategory.displayName}">One</option>
                 </select>
+                <div class="form-text">
+                    게시글의 주제를 선택해주세요.
+                </div>
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control shadow-none bg-dark text-white"
-                       th:field="*{title}" placeholder="제목" required>
+                <input th:field="*{title}" type="text" class="form-control shadow-none bg-dark text-white"
+                       placeholder="제목을 입력해주세요." required>
             </div>
             <div class="mb-3">
-                <textarea class="form-control shadow-none bg-dark text-white"
-                          th:field="*{content}" rows="12" placeholder="봉천동 근처 이웃과 취미생활에 대해 이야기를 해보세요" required></textarea>
+                <textarea th:field="*{content}" class="form-control shadow-none bg-dark text-white"
+                          rows="12" placeholder="봉천동 근처 이웃과 취미생활에 대해 이야기를 해보세요" required></textarea>
                 <div th:errors="*{content}" style="white-space:pre-wrap">
                     글 오류
                 </div>
             </div>
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="inputGroupFile"><i class="bi bi-image"></i></label>
-                <input type="file" class="form-control bg-dark text-white" name="image" id="inputGroupFile">
+            <div class="mb-3">
+                <div class="input-group">
+                    <label class="input-group-text" for="inputGroupFile"><i class="bi bi-image"></i></label>
+                    <input type="file" class="form-control bg-dark text-white" name="image" id="inputGroupFile">
+                </div>
+                <div class="form-text">
+                    최대 10M까지 업로드 가능합니다.
+                </div>
             </div>
+
             <button type="submit" class="btn btn-primary">완료</button>
         </form>
     </div>
