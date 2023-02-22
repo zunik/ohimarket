@@ -112,11 +112,11 @@
       <form th:if="${page == 'postDetail'}" action="/comment/add" method="post" style="display:inline;">
         <input type="hidden" name="postToken" th:value="${model.post.token}">
         <div class="row bg-dark pb-1 pt-2 px-3 border-top border-secondary" >
-            <div class="col-sm-11">
+            <div class="col-11">
               <textarea class="form-control bg-secondary shadow-none text-white rounded" name="content"
                         id="comment-add-input" rows="1" placeholder="댓글을 입력해주세요." required></textarea>
             </div>
-            <div class="col-sm-1">
+            <div class="col-1">
               <button type="submit" id="commentAddButton" hidden></button>
               <span style="cursor:pointer;" onclick="document.getElementById('commentAddButton').click()">
                 <i class="bi bi-arrow-up-circle-fill" style="font-size:30px; color:#ED7014;"></i>
