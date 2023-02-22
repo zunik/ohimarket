@@ -1,0 +1,24 @@
+version: "3"
+services:
+  db:
+    image: "oscarfonts/h2:2.1.210"
+    ports:
+      - 1521:1521
+      - 8081:81
+    environment:
+      H2_OPTIONS: -ifNotExists
+    volumes:
+      - ./docker_volumes/h2/:/opt/h2-data
+  web:
+    build:
+      context: .
+    image: "chazunik/ohimarket:4"
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:h2:tcp://db:1521/ohimarket
+      SPRING_FILE_DIR: /file/
+    depends_on:
+      - db
+    volumes:
+      - ./docker_volumes/file:/file
