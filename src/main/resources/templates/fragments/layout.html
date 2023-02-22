@@ -22,6 +22,30 @@
       left: 590px;
      }
 
+     @media (max-width: 650px) {
+      #fixed-div {
+        left: 500px;
+       }
+      }
+
+      @media (max-width: 550px) {
+      #fixed-div {
+        left: 430px;
+       }
+      }
+
+      @media (max-width: 500px) {
+      #fixed-div {
+        left: 370px;
+       }
+      }
+
+      @media (max-width: 450px) {
+      #fixed-div {
+        left: 310px;
+       }
+      }
+
      /* 댓글 입력 박스 */
      #comment-add-input {
       border:none;
@@ -112,11 +136,11 @@
       <form th:if="${page == 'postDetail'}" action="/comment/add" method="post" style="display:inline;">
         <input type="hidden" name="postToken" th:value="${model.post.token}">
         <div class="row bg-dark pb-1 pt-2 px-3 border-top border-secondary" >
-            <div class="col-11">
+            <div class="col-sm-11 col-10">
               <textarea class="form-control bg-secondary shadow-none text-white rounded" name="content"
                         id="comment-add-input" rows="1" placeholder="댓글을 입력해주세요." required></textarea>
             </div>
-            <div class="col-1">
+            <div class="col-sm-1 col-2">
               <button type="submit" id="commentAddButton" hidden></button>
               <span style="cursor:pointer;" onclick="document.getElementById('commentAddButton').click()">
                 <i class="bi bi-arrow-up-circle-fill" style="font-size:30px; color:#ED7014;"></i>
