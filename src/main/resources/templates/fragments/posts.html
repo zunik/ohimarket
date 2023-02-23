@@ -33,7 +33,7 @@
             </div>
           </div>
           <div th:if="${post.imgName} != null" class="col-sm-2 col-3">
-            <img th:src="|/images/${post.imgName}/thumbnail|" class="rounded">
+            <img th:src="|/images/${post.imgName}?isThumbnail=true|" class="rounded">
           </div>
         </div>
       </a>
