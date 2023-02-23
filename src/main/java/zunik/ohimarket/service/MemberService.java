@@ -20,7 +20,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void save(SignUpDto createParam){
+    public Member save(SignUpDto createParam){
         Member member = new Member();
         member.setEmail(createParam.getEmail());
         member.setNickname(createParam.getNickname());
@@ -29,8 +29,9 @@ public class MemberService {
 
         String encodedPassword = passwordEncoder.encode(createParam.getPassword());
         member.setPassword(encodedPassword);
-
         repository.save(member);
+
+        return member;
     }
 
     @Transactional

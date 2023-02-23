@@ -23,7 +23,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public void save(CommentCreateDto createParam, Member loginMember) throws PostNotFoundException {
+    public Comment save(CommentCreateDto createParam, Member loginMember) throws PostNotFoundException {
         String postToken = createParam.getPostToken();
 
         Post post = postRepository.findByToken(postToken).orElseThrow(
@@ -38,6 +38,8 @@ public class CommentService {
 
         commentRepository.save(comment);
         postRepository.increaseCommentCount(comment.getPostId());
+
+        return comment;
     }
 
     @Transactional(readOnly = true)

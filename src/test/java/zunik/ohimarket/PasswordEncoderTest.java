@@ -1,7 +1,6 @@
 package zunik.ohimarket;
 
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Slf4j
 @SpringBootTest
 public class PasswordEncoderTest {
     @Autowired
@@ -24,8 +22,8 @@ public class PasswordEncoderTest {
 
         // when
         String encodedPassword = passwordEncoder.encode(rawPassword);
-        log.info(encodedPassword);
 
+        // then
         assertThat(passwordEncoder.matches(rawPassword, encodedPassword)).isEqualTo(true);
     }
 }

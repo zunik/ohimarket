@@ -33,10 +33,10 @@ public class PostService {
     private final ImgFileStore imgFileStore;
 
     @Transactional
-    public void save(PostCreateDto createParam, Long memberId) {
+    public Post save(PostCreateDto createParam, Long memberId) {
         Post post = new Post();
 
-        if (!createParam.getImage().isEmpty()) {
+        if (createParam.getImage() != null && !createParam.getImage().isEmpty()) {
             try {
                 String imgName = imgFileStore.storeFile(createParam.getImage());
                 post.setImgName(imgName);
@@ -50,8 +50,9 @@ public class PostService {
         post.setContent(createParam.getContent());
         post.setMemberId(memberId);
         post.setToken(UUID.randomUUID().toString());
-
         postRepository.save(post);
+
+        return post;
     }
 
     @Transactional
