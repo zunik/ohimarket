@@ -29,6 +29,9 @@ public class PostQueryRepository {
                 .fetchOne();
     }
 
+    /**
+     * 특정 사용자의 '댓글단 글'의 리스트를 리턴합니다.
+     */
     public List<Post> getCommentaryPosts(Long memberId) {
         return query.selectFrom(post)
                 .join(comment).on(post.id.eq(comment.postId))

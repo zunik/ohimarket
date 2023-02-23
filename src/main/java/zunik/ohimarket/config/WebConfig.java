@@ -8,6 +8,9 @@ import zunik.ohimarket.interceptor.LoginCheckInterceptor;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    /**
+     * excludePathPatterns 에 포함된 페이지가 아닐 경우, 로그인이 필요합니다.
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginCheckInterceptor())

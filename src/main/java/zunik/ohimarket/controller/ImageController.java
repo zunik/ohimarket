@@ -30,6 +30,11 @@ import java.util.concurrent.TimeUnit;
 public class ImageController {
     private final ImgFileStore imgFileStore;
 
+    /**
+     * 이미지를 보여줍니다.
+     *
+     * @param isThumbnail 해당 값이 true 로 들어오면 썸네일 이미지를 보여줍니다.
+     */
     @ResponseBody
     @GetMapping("/images/{imgName}")
     public ResponseEntity<Resource> downloadImage(
@@ -52,6 +57,7 @@ public class ImageController {
         Path filePath = Paths.get(fullPath);
 
         HttpHeaders headers =  new HttpHeaders();
+        // 이미지명은 uuid로 고유하기 때문에, cache age를 길게 잡습니다.
         headers.setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
         headers.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(filePath));
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);

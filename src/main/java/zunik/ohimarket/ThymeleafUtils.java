@@ -7,10 +7,14 @@ import java.time.LocalDateTime;
 import static java.time.temporal.ChronoUnit.*;
 
 /**
- * thymeleaf 용 커스텀 util
+ * thymeleaf 내에서 사용할 수 있는 기능을 가지고 있습니다.
  */
 @Component
 public class ThymeleafUtils {
+    /**
+     * datetime 을 받아서 지금과 비교한뒤, 경과한 시간을 표시해줍니다.
+     * 사용예시) th:text="${@thymeleafUtils.datetimeToStr(createdAt)}"
+     */
     public String datetimeToStr(LocalDateTime dateTime) {
         LocalDateTime now = LocalDateTime.now();
 

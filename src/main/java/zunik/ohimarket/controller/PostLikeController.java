@@ -15,6 +15,9 @@ import zunik.ohimarket.service.PostLikeService;
 public class PostLikeController {
     private final PostLikeService postLikeService;
 
+    /**
+     * 좋아요 처리를 합니다. 
+     */
     @PostMapping("/like")
     public String like(
             @RequestParam(value = "postToken") String postToken,

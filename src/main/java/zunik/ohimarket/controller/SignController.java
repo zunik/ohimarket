@@ -26,12 +26,18 @@ public class SignController {
     private final MemberService memberService;
     private final SignInService signInService;
 
+    /**
+     * 회원가입폼을 호출합니다.
+     */
     @GetMapping("/signUp")
     public String signUpForm(Model model){
         model.addAttribute("form", new SignUpDto());
         return "sign/signUp";
     }
 
+    /**
+     * 새로운 사용자를 생성합니다.
+     */
     @PostMapping("/signUp")
     public String singUp(@Validated @ModelAttribute("form") SignUpDto form, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
@@ -43,12 +49,18 @@ public class SignController {
         return "redirect:/signIn";
     }
 
+    /**
+     * 로그인폼을 호출합니다.
+     */
     @GetMapping("/signIn")
     public String signInForm(Model model){
         model.addAttribute("form", new SignInDto());
         return "sign/signIn";
     }
 
+    /**
+     * 로그인 처리를 합니다.
+     */
     @PostMapping("/signIn")
     public String signIn(@Validated @ModelAttribute("form") SignInDto form,
                          BindingResult bindingResult, HttpServletRequest request,
@@ -70,12 +82,14 @@ public class SignController {
         Member member = memberService.findByEmail(form.getEmail());
 
         HttpSession session = request.getSession();
-        // TODO 세션에 Member 객체 말고 필요한 정보만 넣기
         session.setAttribute(SessionConst.LOGIN_MEMBER, member);
 
         return "redirect:/";
     }
 
+    /**
+     * 로그아웃 합니다.
+     */
     @PostMapping("/signOut")
     public String signOut(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

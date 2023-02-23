@@ -42,6 +42,9 @@ public class ImgFileStore {
         return storeFileName;
     }
 
+    /**
+     * 특정 이미지의 원본과 섬네일까지 제거합니다.
+     */
     public void deleteFile(String filename) {
         File img = new File(getFullPath(filename));
         File thumbnailImg = new File(getThumbnailFullPath(filename));
@@ -49,6 +52,10 @@ public class ImgFileStore {
         thumbnailImg.delete();
     }
 
+    /**
+     * 날짜와 uuid 를 조합해서 고유한 파일이름을 만듭니다.
+     * 예시) 20230223-1311_5af12c0a-b6f5-46de-b292-f14ca8c4350b.jpg
+     */
     private String createStoreFileName(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         String ext = originalFilename.substring(pos + 1);

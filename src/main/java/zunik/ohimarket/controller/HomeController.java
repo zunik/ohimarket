@@ -16,6 +16,9 @@ public class HomeController {
     private final PostCategoryService postCategoryService;
     private final PostService postService;
 
+    /**
+     * '동네생활' 페이지를 호출합니다.
+     */
     @GetMapping
     public String home(Model model) {
         model.addAttribute("categoriesMap", postCategoryService.findAllTransMap());

@@ -44,7 +44,7 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public Comment findByToken(String commentToken) throws CommentNotFoundException {
-        // 이미 댓글이 지워졌을 수 있음
+        // 이미 댓글이 지워졌을 수 있습니다.
         return commentRepository.findByToken(commentToken).orElseThrow(
                 () -> new CommentNotFoundException()
         );

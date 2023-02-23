@@ -35,6 +35,9 @@ public class PostController {
     private final PostService postService;
     private final PostLikeService postLikeService;
 
+    /**
+     * 게시물 생성폼을 호출합니다.
+     */
     @GetMapping("/add")
     public String addForm(Model model) {
         List<PostCategory> postCategories = postCategoryService.findAll();
@@ -45,6 +48,9 @@ public class PostController {
         return "post/addForm";
     }
 
+    /**
+     * 게시물을 생성합니다.
+     */
     @PostMapping("/add")
     public String addPost(@Validated @ModelAttribute("form") PostCreateDto form,
                              @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
@@ -59,6 +65,9 @@ public class PostController {
         return "redirect:/";
     }
 
+    /**
+     * 게시물의 상세정보를 보여줍니다.
+     */
     @GetMapping("/{postToken}")
     public String postDetail(
             @PathVariable String postToken,
@@ -81,6 +90,9 @@ public class PostController {
         return "post/detailView";
     }
 
+    /**
+     * 게시물의 수정폼을 호출합니다.
+     */
     @GetMapping("/{postToken}/edit")
     public String editForm(
             @PathVariable String postToken,
@@ -108,6 +120,9 @@ public class PostController {
         return "post/editForm";
     }
 
+    /**
+     * 게시물을 수정합니다.
+     */
     @PostMapping("/{postToken}/edit")
     public String editPost(
             @PathVariable String postToken,
@@ -130,6 +145,9 @@ public class PostController {
         return "redirect:/post/{postToken}";
     }
 
+    /**
+     * 게시물을 삭제합니다.
+     */
     @PostMapping("/delete")
     public String deletePost(
             @RequestParam(value = "postToken") String postToken,
@@ -141,7 +159,7 @@ public class PostController {
 
     /**
      * 조회수 처리
-     * 조회수 중복 처리 방지
+     * Cookie를 통해 조회수 중복 처리를 방지합니다.
      */
     private void visit(Long id, HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();

@@ -24,6 +24,9 @@ public class ProfileController {
     private final ProfileService profileService;
     private final PostCategoryService postCategoryService;
 
+    /**
+     * 사용자의 상세정보를 보여줍니다.
+     */
     @GetMapping("/profile/{memberToken}")
     public String profileDetail(
             @PathVariable String memberToken,
@@ -35,6 +38,10 @@ public class ProfileController {
         return "profile/detailView";
     }
 
+    /**
+     * 사용자의 프로필의 수정폼을 호출합니다.
+     * 단, 자신의 프로필만 수정할 수 있습니다.
+     */
     @GetMapping("/myProfile/edit")
     public String editForm(Model model,
                                     @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember) {
@@ -49,6 +56,9 @@ public class ProfileController {
         return "profile/editForm";
     }
 
+    /**
+     * 사용자의 프로필을 수정합니다.
+     */
     @PostMapping("/myProfile/edit")
     public String editMyProfile(
             @Validated @ModelAttribute("form") MemberUpdateDto form,

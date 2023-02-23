@@ -25,7 +25,7 @@ public class PostCategoryService {
 
     /**
      *  key 로 DisplayName 을 바로 찾을 수 있게
-     *  Dict 로 변환해서 넘겨줌
+     *  Dict 로 변환해서 넘겨줍니다.
      */
     @Transactional
     public Map<String, String> findAllTransMap() {

@@ -24,6 +24,9 @@ import zunik.ohimarket.service.CommentService;
 public class CommentController {
     private final CommentService commentService;
 
+    /**
+     * 댓글을 생성합니다.
+     */
     @PostMapping("/add")
     public String addComment(
             @ModelAttribute CommentCreateDto form,
@@ -37,6 +40,9 @@ public class CommentController {
         return "redirect:/post/{postToken}#commentBox";
     }
 
+    /**
+     * 댓글 수정폼을 호출합니다.
+     */
     @GetMapping("/{commentToken}/edit")
     public String editForm(
             @PathVariable String commentToken,
@@ -57,6 +63,9 @@ public class CommentController {
         return "comment/editForm";
     }
 
+    /**
+     * 댓글을 수정합니다.
+     */
     @PostMapping("/{commentToken}/edit")
     public String editComment(
             @PathVariable String commentToken,
@@ -79,8 +88,11 @@ public class CommentController {
         return "redirect:/post/{postToken}#{commentToken}";
     }
 
+    /**
+     * 댓글을 삭제합니다.
+     */
     @PostMapping("/delete")
-    public String deletePost(
+    public String deleteComment(
             @RequestParam(value = "commentToken") String commentToken,
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             RedirectAttributes redirectAttributes

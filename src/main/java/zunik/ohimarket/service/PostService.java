@@ -66,7 +66,7 @@ public class PostService {
             throw new AccessDeniedException();
         }
 
-        // 게시물에 연결된 Like, comment도 모두 제거
+        // 게시물에 연결된 Like, comment도 모두 제거합니다.
         postLikeRepository.deleteByPostId(post.getId());
         commentRepository.deleteByPostId(post.getId());
 
