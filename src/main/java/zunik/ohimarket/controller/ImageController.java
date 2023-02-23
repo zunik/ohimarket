@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -47,10 +49,11 @@ public class ImageController {
             return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         }
 
-        HttpHeaders headers =  new HttpHeaders();
         Path filePath = Paths.get(fullPath);
-        headers.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(filePath));
 
+        HttpHeaders headers =  new HttpHeaders();
+        headers.setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS));
+        headers.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(filePath));
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 }
