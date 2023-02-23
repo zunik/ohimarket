@@ -14,6 +14,7 @@ import zunik.ohimarket.controller.dto.CommentUpdateDto;
 import zunik.ohimarket.domain.Comment;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.controller.dto.CommentCreateDto;
+import zunik.ohimarket.exception.AccessDeniedException;
 import zunik.ohimarket.service.CommentService;
 
 @Slf4j
@@ -42,10 +43,14 @@ public class CommentController {
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             Model model
     ) {
-        Comment comment = commentService.findByToken(commentToken).get();
+        Comment comment = commentService.findByToken(commentToken);
+
+        if (comment.getMember().getId() != loginMember.getId()) {
+            // 행위자에게 권한이 없을 경우
+            throw new AccessDeniedException();
+        }
 
         CommentUpdateDto form = new CommentUpdateDto();
-
         form.setContent(comment.getContent());
 
         model.addAttribute("form", form);
@@ -66,7 +71,7 @@ public class CommentController {
         }
 
         String postToken = commentService.update(
-                commentToken, form
+                commentToken, form, loginMember.getId()
         );
 
         redirectAttributes.addAttribute("postToken", postToken);

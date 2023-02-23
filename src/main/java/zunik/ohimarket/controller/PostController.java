@@ -15,6 +15,7 @@ import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostCategory;
 import zunik.ohimarket.controller.dto.PostCreateDto;
+import zunik.ohimarket.exception.AccessDeniedException;
 import zunik.ohimarket.service.dto.PostDetailResponseDto;
 import zunik.ohimarket.service.PostCategoryService;
 import zunik.ohimarket.service.PostLikeService;
@@ -86,12 +87,12 @@ public class PostController {
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
             Model model
     ) {
-        Post post = postService.findByToken(postToken).orElseThrow();
+        Post post = postService.findByToken(postToken);
         List<PostCategory> postCategories = postCategoryService.findAll();
 
         if (post.getMemberId() != loginMember.getId()) {
-            // TODO 해당 게시글에 수정권한이 없을경우 튕겨냄, 추후에는 권한 없음 페이지로 보내기
-            return "redirect:/";
+            // 해당 게시글에 수정권한이 없을경우
+            throw new AccessDeniedException();
         }
 
         PostUpdateDto form = new PostUpdateDto();

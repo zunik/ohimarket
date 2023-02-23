@@ -18,7 +18,7 @@ public class SignInService {
 
     @Transactional
     public boolean authCheck(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByEmail(email).orElse(null);
 
         if (member == null) {
             return false;

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head th:replace="fragments/layout :: head(요청에러)"></head>
+<body>
+
+<div class="container bg-dark text-white min-vh-100" style="padding-top: 60px;">
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <h1 class="display-1 fw-bold" th:text="${status}">404</h1>
+      <p class="fs-3"> <span class="text-danger">Opps!</span> <span th:text="${message}">Page not found.</span></p>
+      <a href="/" class="btn btn-primary">동네생활</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

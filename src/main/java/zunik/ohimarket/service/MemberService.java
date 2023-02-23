@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zunik.ohimarket.controller.dto.SignUpDto;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.controller.dto.MemberUpdateDto;
+import zunik.ohimarket.exception.MemberNotFoundException;
 import zunik.ohimarket.repository.MemberRepository;
 
 import java.util.Optional;
@@ -40,8 +41,10 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findByEmail(String email) {
-        return repository.findByEmail(email);
+    public Member findByEmail(String email) throws MemberNotFoundException {
+        return repository.findByEmail(email).orElseThrow(
+                () -> new MemberNotFoundException()
+        );
     }
 
     @Transactional(readOnly = true)

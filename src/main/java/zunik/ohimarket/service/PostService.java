@@ -10,13 +10,14 @@ import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.domain.Post;
 import zunik.ohimarket.domain.PostCategory;
 import zunik.ohimarket.controller.dto.PostCreateDto;
+import zunik.ohimarket.exception.AccessDeniedException;
+import zunik.ohimarket.exception.PostNotFoundException;
 import zunik.ohimarket.service.dto.PostDetailResponseDto;
 import zunik.ohimarket.repository.*;
 import zunik.ohimarket.utils.ImgFileStore;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -54,13 +55,14 @@ public class PostService {
     }
 
     @Transactional
-    public void delete(String postToken, Long memberId) {
-        Post post = postRepository.findByToken(postToken).get();
+    public void delete(String postToken, Long memberId) throws PostNotFoundException, AccessDeniedException {
+        Post post = postRepository.findByToken(postToken).orElseThrow(
+                () -> new PostNotFoundException()
+        );
 
         if (post.getMemberId() != memberId) {
-            // TODO 밖으로 Exc 넘겨서 권한 처리
-            log.info("삭제하려는 글의 권한이 없음");
-            return;
+            // 삭제하려는 글에 권한이 없음
+            throw new AccessDeniedException();
         }
 
         // 게시물에 연결된 Like, comment도 모두 제거
@@ -76,8 +78,11 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostDetailResponseDto getDetail(String postToken) {
-        Post post = postRepository.findByToken(postToken).orElseThrow();
+    public PostDetailResponseDto getDetail(String postToken) throws PostNotFoundException {
+        Post post = postRepository.findByToken(postToken).orElseThrow(
+                () -> new PostNotFoundException()
+        );
+
         PostCategory postCategory = postCategoryRepository.findById(post.getPostCategoryName()).get();
         Member creator = memberRepository.findById(post.getMemberId()).get();
         List<Comment> comments = commentQueryRepository.findByPostId(post.getId());
@@ -93,13 +98,14 @@ public class PostService {
 
 
     @Transactional
-    public void update(String postToken, Long memberId, PostUpdateDto updateParam) {
-        Post post = postRepository.findByToken(postToken).get();
+    public void update(String postToken, Long memberId, PostUpdateDto updateParam) throws PostNotFoundException {
+        Post post = postRepository.findByToken(postToken).orElseThrow(
+                () -> new PostNotFoundException()
+        );
 
         if (post.getMemberId() != memberId) {
-            // TODO 밖으로 Exc 넘겨서 권한 처리
-            log.info("수정하려는 글에 권한이 없음");
-            return;
+            // 수정하려는 글에 권한이 없음
+            throw new AccessDeniedException();
         }
 
         if (!updateParam.getImage().isEmpty()) {
@@ -128,8 +134,10 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Post> findByToken(String token) {
-        return postRepository.findByToken(token);
+    public Post findByToken(String token) throws PostNotFoundException {
+        return postRepository.findByToken(token).orElseThrow(
+                () -> new PostNotFoundException()
+        );
     }
 
 
