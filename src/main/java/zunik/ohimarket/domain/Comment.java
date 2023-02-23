@@ -17,6 +17,7 @@ public class Comment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 노출용 고유 값
     @Column(unique = true, nullable = false)
     private String token;
 

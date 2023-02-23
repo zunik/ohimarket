@@ -14,7 +14,7 @@ public class PostCategory {
     @Id
     private String name;
     private String displayName;
-    // 순서보장
+    // 카테고리 노출 순서 정보
     private int sortNum;
     @CreatedDate
     @Column(updatable = false)
