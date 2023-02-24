@@ -13,6 +13,7 @@ import zunik.ohimarket.constant.SessionConst;
 import zunik.ohimarket.domain.Member;
 import zunik.ohimarket.controller.dto.SignInDto;
 import zunik.ohimarket.controller.dto.SignUpDto;
+import zunik.ohimarket.exception.LoginFailureException;
 import zunik.ohimarket.service.MemberService;
 import zunik.ohimarket.service.SignInService;
 
@@ -70,19 +71,14 @@ public class SignController {
             return "sign/signIn";
         }
 
-        // 인증 체크
-        boolean authCheck = signInService.authCheck(form.getEmail(), form.getPassword());
-
-        if (!authCheck) {
-            // TODO 로그인 실패시 메시지 띄우기
-            model.addAttribute("loginFail", "아이디 또는 패스워드를 확인해주세요");
+        try {
+            Member member = signInService.signIn(form);
+            HttpSession session = request.getSession();
+            session.setAttribute(SessionConst.LOGIN_MEMBER, member);
+        } catch (LoginFailureException e) {
+            model.addAttribute("loginFail", "아이디 또는 비밀번호를 확인해주세요.");
             return "sign/signIn";
         }
-
-        Member member = memberService.findByEmail(form.getEmail());
-
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
 
         return "redirect:/";
     }

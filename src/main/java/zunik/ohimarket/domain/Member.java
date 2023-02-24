@@ -27,6 +27,8 @@ public class Member {
     private String nickname;
     private String introduction;
 
+    private LocalDateTime lastLogin;
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;

@@ -13,6 +13,9 @@
       <label th:for="password" class="form-label">비밀번호</label>
       <input th:field="*{password}" type="password" class="form-control" placeholder="비밀번호를 입력해주세요." required>
     </div>
+    <div th:if="${loginFail} != null" th:text="${loginFail}" class="form-text mb-2 text-danger">
+      아이디 또는 비밀번호를 확인해주세요.
+    </div>
     <button type="submit" class="btn btn-primary">로그인</button>
   </form>
   <br />
