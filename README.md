@@ -2,7 +2,8 @@
 
 JAVA/Spring을 사용한 첫 프로젝트입니다.  <br />
 당근마켓의 '동네생활' 부분을 만들어보았습니다. <br />
-[여기서](http://128.199.163.250/) 이용해 보실 수 있습니다.
+[여기서](http://128.199.163.250/) 이용해 보실 수 있습니다. 
+- 회원가입하셔도 되고, 테스트 계정 (ID: test@gmail.com, PW: 123) 쓰셔도 됩니다.
 
 도커 이미지는 [여기에](https://hub.docker.com/repository/docker/chazunik/ohimarket/general) 올라가 있습니다. 
 
